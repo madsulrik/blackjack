@@ -366,3 +366,13 @@ pythontex-files-*/
 # endfloat
 *.ttt
 *.fff
+
+### F# ###
+lib/debug
+lib/release
+Debug
+*.suo
+*.user
+obj
+bin
+*.exe
