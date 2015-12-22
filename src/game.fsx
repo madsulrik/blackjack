@@ -1,18 +1,13 @@
 #load "./blackjack.fsx"
+#load "./headers.fsx"
 open Blackjack
+open Headers
 
 ///
 ///
 ///
 let validate_name str = String.length str > 0 && String.length str < 25
 let validate_yn str = (str = "y" || str = "n")
-
-///
-///
-///
-let menuHeader = System.IO.File.ReadAllText "menu.txt"
-let mainHeader = System.IO.File.ReadAllText "main.txt"
-let header = System.IO.File.ReadAllText "header.txt"
 
 ///
 ///
@@ -64,7 +59,7 @@ let AI (game:Game) (player:Player) =
 ///
 ///
 ///
-let main (game:Game) =
+let rec main (game:Game) =
   for player in game.players do
     printScoreboard game
     selectPlayer player
@@ -94,8 +89,17 @@ let main (game:Game) =
     writeln "And the winner(s) is:"
   for winner in winners do
     writeln (sprintf " • %s (%d)" winner.name winner.score)
-  writeln "\nPress Enter to return to the menu..."
-  readln() |> ignore
+  write "New round (y/n)?"
+  let mutable input = readln()
+  while validate_yn input = false do
+    clear()
+    write header
+    write "New round (y/n)?"
+    input <- readln()
+  if input = "y" then
+    for player in game.players do player.hand.replaceWith [||]
+    game.dealer.hand.replaceWith [||]
+    main(Game(game.dealer,game.players))
 
 ///
 ///
@@ -131,6 +135,7 @@ let setup() =
       input <- readln()
       writeln ""
     let AI = input = "n"
+    if AI then name <- name + "(AI)"
     players <- Array.append players [|Player(name,i,AI)|]
   clear()
   let dealer = Player("Dealer",numberOfPlayers,true)
