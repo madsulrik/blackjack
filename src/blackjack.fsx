@@ -1,3 +1,10 @@
+// Console helperfunctions
+let write (str:string) = System.Console.Write str
+let writeln (str:string) = System.Console.WriteLine str
+let readln() = System.Console.ReadLine()
+let setcursor(x,y) = System.Console.SetCursorPosition(x,y)
+let clear() = System.Console.Clear()
+
 /// <summary>Enumeration representing card-suits</summary>
 type Suits = Spades | Hearts | Diamonds | Clubs
 
@@ -82,7 +89,10 @@ type Player(name,index,AI) =
     let mutable es = 0
     for card in this.hand.cards do
       if card.value = 1 then es <- es + 1
-      score <- score + card.value
+      if card.value > 10 then
+        score <- score + 10
+      else
+        score <- score + card.value
     while es>0 && floor(float(21-score)/10.)>=1. do
       score <- score+10
       es <- es-1
@@ -95,7 +105,7 @@ type Player(name,index,AI) =
     let empty =  "|                       |" + space
     let bottom = "–––––––––––––––––––––––––" + space
     let x = (String.length top - String.length space)*(this.index%3) + (this.index)%3
-    let y = (5*(this.index/3))
+    let y = (8*(this.index/3)+5)
     System.Console.SetCursorPosition(x,y)
     System.Console.Write top
     System.Console.SetCursorPosition(x,y+1)
