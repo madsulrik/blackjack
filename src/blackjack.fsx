@@ -31,14 +31,19 @@ type Card(value,suit) =
 type Hand(hand) = 
   let mutable c:(Card array) = hand
   member this.cards with get() = c
-  member this.drop() =
+  member this.drop =
     let lastIndex = (Array.length c)-1 
     let card = c.[0]
     c <- c.[1..lastIndex]
-    printfn "%A" (card.toString())
     card    
-  member this.draw (card:Card) = c <- Array.append [|card|] c 
-  member this.shuffle = 
+  member this.draw (card:Card) = c <- Array.append [|card|] c
+  member this.toString() =
+    let mutable str = ""
+    for i=0 to (Array.length c)-1 do
+      if i>0 then str <- str + " "
+      str <- str + c.[i].toString()
+    str
+  member this.shuffle() = 
     let len = Array.length c
     let testCard = Card(-1,Spades)
     let newHand = Array.create len testCard
@@ -51,7 +56,7 @@ type Hand(hand) =
       newHand.[i] <- c.[j]
       c.[j] <- testCard
     c <- newHand
-  member this.replace cards =
+  member this.replaceWith cards =
     c <- cards
   new()=
     Hand([||])
@@ -83,17 +88,62 @@ type Player(name,index,AI) =
       es <- es-1
     score
   member this.isBusted() = (this.score>21)
+  member this.scoreboard() =
+    let space = if (this.index+1)%3=0 && this.index <> 0 then "" else " "
+    let top =    "–––––––––––––––––––––––––" + space
+    let middle = "| - - - - - - - - - - - |" + space
+    let empty =  "|                       |" + space
+    let bottom = "–––––––––––––––––––––––––" + space
+    let x = (String.length top - String.length space)*(this.index%3) + (this.index)%3
+    let y = (5*(this.index/3))
+    System.Console.SetCursorPosition(x,y)
+    System.Console.Write top
+    System.Console.SetCursorPosition(x,y+1)
+    System.Console.Write empty
+    let xn = (String.length empty)/2 - (String.length this.name)/2
+    System.Console.SetCursorPosition(x+xn,y+1)
+    System.Console.Write this.name
+    System.Console.SetCursorPosition(x,y+2)
+    System.Console.Write middle
+    System.Console.SetCursorPosition(x,y+3)
+    System.Console.Write empty
+    let xc = (String.length empty)/2 - (String.length (h.toString()))/2
+    System.Console.SetCursorPosition(x+xc,y+3)
+    System.Console.Write (h.toString())
+    System.Console.SetCursorPosition(x,y+4)
+    System.Console.Write empty
+    let score = sprintf "(%d)" this.score
+    let xs = (String.length empty)/2 - (String.length (score))/2
+    System.Console.SetCursorPosition(x+xs,y+4)
+    System.Console.Write score
+    System.Console.SetCursorPosition(x,y+5)
+    System.Console.Write middle
+    System.Console.SetCursorPosition(x,y+6)
+    System.Console.Write empty
+    System.Console.SetCursorPosition(x,y+7)
+    System.Console.Write bottom
   new(name, index) =
     Player(name, index, false)
 
 /// <summary>Game is an object which is used to contain a collection of data,
-/// for which is used in-game, like players, a dealer, and a card stack.</summary>
-/// <param name="dealer">A Player object representing a dealer. Player.AI must be
-/// set to true.</param>
+/// for which is used in-game, like players, a dealer, and a card stack.
+/// The Game object is responsible for transfering cards from the stack to the 
+/// players.</summary>
+/// <param name="dealer">A Player object representing a dealer. Player. 
+/// AI must be set to true.</param>
 /// <param name="players">An Array of Player objects.</param>
 type Game(dealer,players) =
   let s = new Hand()
-  member this.dealer = dealer
-  member this.players = players
+  do
+    let mutable cards = [||]:(Card array)
+    for i=1 to 13 do
+      cards <- Array.append cards [|Card(i,Hearts);Card(i,Spades);Card(i,Diamonds);Card(i,Clubs)|]
+    s.replaceWith cards
+    s.shuffle()
+  member this.dealer:Player = dealer
+  member this.players:(Player array) = players
   member this.numberOfPlayers = Array.length players
   member this.stack = s
+  member this.draw (player:Player) =
+    if Array.length this.stack.cards > 0 then
+      player.hand.draw this.stack.drop
