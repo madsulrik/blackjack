@@ -28,30 +28,33 @@ type Card(value, suit) =
 ///
 ///
 ///
-type Hand() = 
-  let mutable hand:(Card array) = [||]
-  member this.cards with get () = hand
+type Hand(hand) = 
+  let mutable c:(Card array) = hand
+  member this.cards with get() = c
   member this.drop() =
-    let lastIndex = (Array.length hand)-1 
-    let card = hand.[0]
-    hand <- hand.[1..lastIndex]
+    let lastIndex = (Array.length c)-1 
+    let card = c.[0]
+    c <- c.[1..lastIndex]
     printfn "%A" (card.toString())
     card    
-  member this.draw (card:Card) = hand <- Array.append [|card|] hand 
-  member this.shuffle() = 
-    let len = Array.length hand
-    let testCard = new Card(-1,Spades)
+  member this.draw (card:Card) = c <- Array.append [|card|] c 
+  member this.shuffle = 
+    let len = Array.length c
+    let testCard = Card(-1,Spades)
     let newHand = Array.create len testCard
     let test (card:Card) = card.toString()=testCard.toString()
     let rnd = System.Random()
     for i in 0..(len-1) do
       let mutable j = rnd.Next(0,len)
-      while test hand.[j] do
+      while test c.[j] do
         j <- rnd.Next(0,len)
-      newHand.[i] <- hand.[j]
-      hand.[j] <- testCard
-    hand <- [||]//newHand
-
+      newHand.[i] <- c.[j]
+      c.[j] <- testCard
+    c <- newHand
+  member this.replace cards =
+    c <- cards
+  new()=Hand([||])
+  
 ///
 ///
 ///
@@ -64,19 +67,17 @@ type Player(name, index, AI) =
   member this.score =
     //implement 1 or 11 with A
     let mutable score = 0
+    let mutable es = 0
     for card in this.hand.cards do
+      if card.value = 1 then es <- es + 1
       score <- score + card.value
+    while es>0 && floor(float(21-score)/10.)>=1. do
+      score <- score+10
+      es <- es-1
     score
-  member this.isBusted() = (this.score>=21)
-  new(name, index) =
+  member this.isBusted()=(this.score>21)
+  new(name, index)=
     Player(name, index, false)
-
-let printHand (hand:Hand) =
-  let len = Array.length hand.cards
-  for card in hand.cards do
-    printf "%s " (card.toString())
-  if len = 0 then printf "No cards!"
-  printfn ""
 
 ///
 ///
