@@ -99,7 +99,7 @@ type Player(name,index,AI) =
     score
   member this.isBusted() = (this.score>21)
   member this.scoreboard() =
-    let space = if (this.index+1)%3=0 && this.index <> 0 then "" else "  "
+    let space = if (this.index+1)%3=0 && this.index <> 0 then "" else " "
     let top =    "–––––––––––––––––––––––––" + space
     let middle = "| - - - - - - - - - - - |" + space
     let empty =  "|                       |" + space

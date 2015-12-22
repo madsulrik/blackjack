@@ -48,7 +48,7 @@ let AI (game:Game) (player:Player) =
     let es = Array.filter (fun (x:Card)->x.value=1) game.stack.cards |> Array.length
     let p = Array.filter (fun (x:Card)->x.value<=diff) game.stack.cards |> Array.length
     let pos x = if x < 0 then -x else x 
-    if p > 40 || es > 0 && p+10 > 20 || p > 25 && pos (bestValue-player.score) < 4 then
+    if p > 30 || es > 0 && p > 20 || p > 25 && pos (bestValue-player.score) < 4 then
       System.Threading.Thread.Sleep((52-p)*60)
       game.draw player
     else
