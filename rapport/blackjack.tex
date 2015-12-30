@@ -26,7 +26,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 % Package for typesetting programs. Listings does not support fsharp, but a little modification goes a long way
 \usepackage{listings}
-\usepackage{color}
+\usepackage{xcolor}
 \usepackage{verbatim}
 \usepackage{color}
 \usepackage{textcomp}
@@ -73,7 +73,27 @@
 \usepackage{newunicodechar}
 %\newunicodechar{┌}{?}
 
+% Site med mange eksempler - både kode og billeder
+% http://www.texample.net/tikz/
 
+%%% Tikz: pakke til at lave grafik
+\usepackage{tikz}
+
+%%% Tilføjer makroer der gør livet lettere for os
+\usetikzlibrary{arrows, shapes, positioning}
+
+%%% Pile
+%%% http://www.texample.net/media/pgf/builds/pgfmanualCVS2012-11-04.pdf (afsnit 24)
+\tikzset{
+  aggr/.style={->, >=open diamond},
+  inh/.style={->, >=open triangle 45}
+} 
+
+%%% Bokse
+%%% http://www.texample.net/media/pgf/builds/pgfmanualCVS2012-11-04.pdf (afsnit 49)
+\tikzset{
+  class/.style={draw, rectangle}
+}
 
 \lstset{ %
   numbers=right,                    % where to put the line-numbers; possible values are (none, left, right)
@@ -125,6 +145,16 @@
 \section{Forord}
     
 \section{Introduktion}
+   \paragraph*{Sådan kompilerer du projektet\\}
+    I \lstinline$/src$ mappen ligger der en Makefile og hvis man kører den, 
+    kompileres \lstinline$game.exe$,
+    begge filer kan findes i mappen \path{/src}.
+    Kommandoen til at kompilerer er  \lstinline$make$ og kan den kan skrives i terminalen.
+
+    Derudover kan man kompilerer projektet med dokumentation, ved at bruge kommandoen \lstinline$make withdocs$
+
+    Tests findes i  mappen \path{/src}, i filen \lstinline$tests.fsx$,
+    og kan kompileres med \lstinline$fsharpc$ og køres med \lstinline$mono$.
 
 \newpage
 
@@ -135,6 +165,36 @@
   \newpage
 
   \section{Problemanalyse og design}
+    \subsection*{Struktur}
+      I dette afsnit vil vi beskrive den strukturelle opbygning vi valgte i vores design.
+
+      Vores design bygger op omkring fire kerne klasser,
+      Game, Player, Hand og Card og en enumeration kaldet Suits - der huser de fire forskellige kulører.
+
+      \subsubsection*{Game}
+      Game gemmer Player objekttet for dealeren, en liste af Player objekter af de spillere der deltager
+      og den nuværende stak der kan trækkes fra - denne stak er af typen Hand.
+      Ved siden af det har den en funktion til at returnere antallet af spillere i spillet,
+      det er i princippet bare en funktion der tager længden af players arrayen.
+      Game indeholder også en funktion draw, der trækker et kort fra stack og ligger den ind i den valgte spillers hånd.
+
+      Game objectets funktion er at holde styr på alt det nødvendige for spil logikken,
+      så al datahåndtering til et spil foregår i dette objekt.
+
+      \subsubsection*{Hand}
+      Hand gemmer en array af Card objekter, og skal være et objekt der håndtere den funktion vores hånd har i et normalt kortspil.
+      En hånd har en funktion der trækker et kort, altid det øverste(stak) denne har vi valgt at kalde \lstinline$drop$,
+      den har en funktion der ligger et kort på stakken denne hedder \lstinline$draw$,
+      så kan hele håndens kort erstattets, hånden skal kunne blandes og hånden skal kunne skrives ud som string.
+
+      \begin{figure}[H]
+        \centering
+
+        \includegraphics[width=520px]{figures/uml.png}
+
+        \caption{UML diagram over vores klasse implementation}
+        \label{fig:umlDiagram}
+      \end{figure}
 
   \section{Programbeskrivelse}
 
@@ -148,5 +208,7 @@
     \subsection{Brugervejledning}
 
     \subsection{Kildekode}
-    \lstinputlisting[caption={Interface fil for modulet Sudoku},label={lst:interfaceSudoku}]{../src/modules/Sudoku/Sudoku.fsi}
+      \lstinputlisting[caption={Spilklasser},label={lst:blackjack}]{code/blackjack.fsx}
+      \lstinputlisting[caption={Spillogikken},label={lst:game}]{code/game.fsx}
+      \lstinputlisting[caption={Tests},label={lst:tests}]{../src/tests.fsx}
 \end{document}

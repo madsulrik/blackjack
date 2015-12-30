@@ -1,0 +1,49 @@
+<diagram program="umletino" version="14.0"><zoom_level>10</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>890</x><y>540</y><w>210</w><h>190</h></coordinates><panel_attributes>&lt;&lt;Enumeration&gt;&gt;
+Suits
+--
+-- Spades
+-- Hearts
+-- Diamonds
+-- Clubs</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>570</x><y>540</y><w>210</w><h>190</h></coordinates><panel_attributes>&lt;&lt;Card&gt;&gt;
+Package:: Blackjack
+--
+- suit: Suits
+- value: Integer
+--
+# ( value : int, suit : Suit ) : void
+# toString(): string</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>770</x><y>570</y><w>140</w><h>40</h></coordinates><panel_attributes>lt=-
+m1=
+m2=
+suit &gt;</panel_attributes><additional_attributes>10;20;120;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>570</x><y>310</y><w>210</w><h>190</h></coordinates><panel_attributes>&lt;&lt;Hand&gt;&gt;
+Package::Blackjack
+--
+- cards : Array&lt;Card&gt;
+--
+# (hand : Card []) : void
+# () : Hand
+# draw(card : Card) : void
+# drop() : Card
+# toString() : string
+# shuffle() : void
+# replaceWith (cards Card []) : void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>420</x><y>70</y><w>240</w><h>190</h></coordinates><panel_attributes>&lt;&lt;Game&gt;&gt;
+Package::Blackjack
+--
+- dealer: Player
+- players : Player []
+- stack : Hand
+--
+# (dealer : Player, players : Player []) : void
+# numberOfPlayers() : int
+# draw(player : Player) : void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>250</x><y>310</y><w>270</w><h>190</h></coordinates><panel_attributes>&lt;&lt;Player&gt;&gt;
+Package: Blackjack
+--
+- name: string
+- index: int
+- hand: Hand
+- AI: bool
+--
+# (name: string, index: int, AI: true) : void
+# (name : string, index: int) : Player
+# score() : int
+# isBusted() : bool
+# scoreboard : void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>630</x><y>250</y><w>70</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>50;60;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>370</x><y>250</y><w>140</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;60;120;10</additional_attributes></element><element><id>Relation</id><coordinates><x>510</x><y>390</y><w>80</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>60;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>660</x><y>490</y><w>30</w><h>70</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;50;10;10</additional_attributes></element></diagram>
