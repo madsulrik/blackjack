@@ -71,6 +71,7 @@
 \usepackage{amssymb}
 \usepackage{listingsutf8}
 \usepackage{newunicodechar}
+\usepackage{nameref}
 %\newunicodechar{┌}{?}
 
 % Site med mange eksempler - både kode og billeder
@@ -78,6 +79,8 @@
 
 %%% Tikz: pakke til at lave grafik
 \usepackage{tikz}
+
+\usepackage{url}
 
 %%% Tilføjer makroer der gør livet lettere for os
 \usetikzlibrary{arrows, shapes, positioning}
@@ -144,14 +147,14 @@
 
 \section{Forord}
     
-\section{Introduktion}
+\section{Introduktion} \label{sec:introduction}
     Denne opgave er lavet i Programmering og Problemløsning(PoP),
     på Datalogisk Institut - Københavns Universitet(DIKU).
     Opgaven har opgavenummeret 10g,
     målet for opgaven er at udvikle en spilbar version af det beskrevet SimpleJack.
 
     \paragraph*{Sådan kompilerer du projektet\\}
-    I \lstinline$/src$ mappen ligger der en Makefile og hvis man kører den, 
+    I \path{/src} mappen ligger der en Makefile og hvis man kører den, 
     kompileres \lstinline$game.exe$,
     begge filer kan findes i mappen \path{/src}.
     Kommandoen til at kompilerer er  \lstinline$make$ og kan den kan skrives i terminalen.
@@ -163,61 +166,69 @@
 
 \newpage
 
-\section{Problemformulering}
+\section{Problemformulering} \label{sec:problem}
+  I dette afsnit vil vi introducere det problem vi ønsker at løse med programmet,
+  og beskrive hvordan vi har forstået den udleveret kravspecifikation.
 
-    \subsection{Kravspecifikation}
-      Dette forløb har fokus på Klasser og objekter,
-      under emnet Object Orienteret Programmering (OOP).
-      Et af kravene til dette projekt er defor at progammet skal være designet efter OOP paradigmen,
-      og at der skal være et medfølgende UML diagram som programdesignet følger.
+  I dette projekt vil vi gerne udvikle et program der kan spilles af 1-5 spillere i kommandopromten,
+  med mulighed for AI. Der er implementeret i F\# og følger reglerne for SimpleJack der er beskrevet i afsnittet Afsnit \ref{ssec:demands} - \nameref{ssec:demands}.
 
-      Nedenunder følger vores opfattelse af de stillede krav(Opgavebeskrivelsen),
-      altså de krav vi måler vores færdige produkt på.
+  \subsection{Kravspecifikation} \label{ssec:demands}
+    Dette forløb har fokus på Klasser og objekter,
+    under emnet Object Orienteret Programmering (OOP).
+    Et af kravene til dette projekt er defor at progammet skal være designet efter OOP paradigmen,
+    og at der skal være et medfølgende UML diagram som programdesignet følger.
 
-      \begin{enumerate}
-        \item I SimpleJack spilles ikke om penge/jetoner men om sejr/tab, mellem en spiller og dealer
-        \item SimpleJack består af en dealer og 1-5 spillere
-        \item Der bruges et normalt kortspil (uden jokere), altså 13x4 = 52 kort
-        \item Ved spilstart får dealer og hver spiller 2 tilfælde kort fra bunken,
-        med billedsiden opad - så værdien er synlig for alle
-        \item Hver spiller har en tur, og dealeren har altid tur til sidst
-      \end{enumerate}
+    Nedenunder følger vores opfattelse af de stillede krav(Opgavebeskrivelsen),
+    altså de krav vi måler vores færdige produkt på.
 
-      Kortværdierne i spillet er fordel efter følgende princip:
-      \begin{enumerate}
-        \item Billedkort (knægt, dame og konge) har alle værdien 10
-        \item Et es kan enten have værdien 1 eller 11
-        \item Kort mellem 2 og 10 har den påtrygte værdi
-      \end{enumerate}
+    \begin{enumerate}
+      \item I SimpleJack spilles ikke om penge/jetoner men om sejr/tab, mellem en spiller og dealer
+      \item SimpleJack består af en dealer og 1-5 spillere
+      \item Der bruges et normalt kortspil (uden jokere), altså 13x4 = 52 kort
+      \item Ved spilstart får dealer og hver spiller 2 tilfælde kort fra bunken,
+      med billedsiden opad - så værdien er synlig for alle
+      \item Hver spiller har en tur, og dealeren har altid tur til sidst
+    \end{enumerate}
 
-      Hver spiller, spiller et individuelt spil med dealeren,
-      hvor det gælder om at ende med en sum af kortenes værdier er højere end dealerens sum. Hvis summen overstiger 21 er deltageren "bust" og har tabt.
-      Fordi hver spiller, spiller et individuelt spil kan alle sagtens vinde.
+    Kortværdierne i spillet er fordel efter følgende princip:
+    \begin{enumerate}
+      \item Billedkort (knægt, dame og konge) har alle værdien 10
+      \item Et es kan enten have værdien 1 eller 11
+      \item Kort mellem 2 og 10 har den påtrygte værdi
+    \end{enumerate}
 
-      Når en spiller har tur, skal en af de følgende handlinger udføres:
-      \begin{enumerate}
-        \item "Stand": Spilleren/dealeren vælger at give sin tur videre
-        \item "Hit": Spilleren/dealeren modtager et kort ad gangen fra bunken,
-        indtil han/hun stopper sin tur
-      \end{enumerate}
+    Hver spiller, spiller et individuelt spil med dealeren,
+    hvor det gælder om at ende med en sum af kortenes værdier er højere end dealerens sum. Hvis summen overstiger 21 er deltageren "bust" og har tabt.
+    Fordi hver spiller, spiller et individuelt spil kan alle sagtens vinde.
 
-      En spiller har vundet hvis ingen af følgende er gældende:
-      \begin{enumerate}
-        \item Spilleren er "bust"
-        \item Spillerens hånd har en sum der er lavere eller lig med,
-        summen af dealerens hånd
-        \item Både spilleren og dealeren har SimpleJack(Es og et billedkort)
-      \end{enumerate}
+    Når en spiller har tur, skal en af de følgende handlinger udføres:
+    \begin{enumerate}
+      \item "Stand": Spilleren/dealeren vælger at give sin tur videre
+      \item "Hit": Spilleren/dealeren modtager et kort ad gangen fra bunken,
+      indtil han/hun stopper sin tur
+    \end{enumerate}
 
-      En spiller kan enten deltage i spillet via terminalen,
-      eller en spiller kan være en AI som følger følgende regler(Opgavebeskrivelsen):
-      \begin{enumerate}
-        \item Vælg altid "Hit", medmindre summen af egne kort kan være 17 eller over, ellers vælg "Stand"
-        \item Vælg tilfældigt mellem "Hit"og "Stand". Hvis "Hit"vælges trækkes et kort og der vælges igen tilfældigt mellem "Hit"og "Stand"osv.
-      \end{enumerate}
+    En spiller har vundet hvis ingen af følgende er gældende:
+    \begin{enumerate}
+      \item Spilleren er "bust"
+      \item Spillerens hånd har en sum der er lavere eller lig med,
+      summen af dealerens hånd
+      \item Både spilleren og dealeren har SimpleJack(Es og et billedkort)
+    \end{enumerate}
+
+    En spiller kan enten deltage i spillet via terminalen,
+    eller en spiller kan være en AI som følger følgende regler(Opgavebeskrivelsen):
+    \begin{enumerate}
+      \item Vælg altid "Hit", medmindre summen af egne kort kan være 17 eller over, ellers vælg "Stand"
+      \item Vælg tilfældigt mellem "Hit"og "Stand". Hvis "Hit"vælges trækkes et kort og der vælges igen tilfældigt mellem "Hit"og "Stand"osv.
+    \end{enumerate}
   \newpage
 
-  \section{Problemanalyse og design}
+  \section{Problemanalyse og design} \label{sec:design}
+    I dette afsnit vil vi beskrive hvilken struktur vi har tænkt os at opbygge vores programefter.
+    Vi vil introducere et UML diagram og beskrive de tanker der ligger bag vores designvalg.
+
     \subsection*{Struktur}
       I dette afsnit vil vi beskrive den strukturelle opbygning vi har overvejet i vores design.
 
@@ -277,19 +288,47 @@
         \label{fig:umlDiagram}
       \end{figure}
 
-  \section{Programbeskrivelse}
+  \section{Programbeskrivelse} \label{sec:programDescription}
+    Vores programkode er opdelt i fire filer der kan findes i \path{/src} mappen.
+    Filen \path{blackjack.fsx} indeholder spillets hjælpefunktioner, enumerations og klasser,
+    der huser de forskellige spilobjekter. Alle disse er beskrevet i Afsnit \ref{sec:design} - \nameref{sec:design}
+
+    Filen \path{game.fsx} indeholder spillets logik, main-loop og det er den files der køres.
+    Filen \path{headers.fsx} indeholder headers/"grafik" der printes i konsollen den indeholder følgende headers:
+    \begin{enumerate}
+      \item menuHeader der vises over hovedmenuen
+      \item mainHeader der vises når der skal vælges kommando
+      \item header der vises på alle andre tidspunkter
+    \end{enumerate}
+    Filen \path{tests.fsx} indeholder unit-tests af programmet.
+
+    \subsection{Hjælpefunktion}
+      Game.fsx
+      - validate_name
+      - validate_yn
+      
+      Blackjack.fsx
+      - write
+      - writeln
+      - readln
+      - setcursor
+      - clear
 
   \section{Afprøvning} \label{sec:unitTest}
 
-	\section{Diskussion og konlusion}
+	\section{Diskussion og konlusion} \label{sec:conclusion}
   
     \newpage
     \section{Bilag}
-    
-    \subsection{Brugervejledning}
+      Dette afsnit indeholder en brugervejledning for brug og spil af SimpleJack og spillets programkode.
 
-    \subsection{Kildekode}
-      \lstinputlisting[caption={Spilklasser},label={lst:blackjack}]{code/blackjack.fsx}
-      \lstinputlisting[caption={Spillogikken},label={lst:game}]{code/game.fsx}
-      \lstinputlisting[caption={Tests},label={lst:tests}]{../src/tests.fsx}
+      \subsection{Brugervejledning} \label{ssec:manual}
+
+      \subsection{Kildekode} \label{ssec:sourceCode}
+        Dette afsnit indeholder alt den kode der er blevet udviklet til projektet,
+        både klasser, spillogik og tests.
+
+        \lstinputlisting[caption={Spilklasser},label={lst:blackjack}]{code/blackjack.fsx}
+        \lstinputlisting[caption={Spillogikken},label={lst:game}]{code/game.fsx}
+        \lstinputlisting[caption={Tests},label={lst:tests}]{../src/tests.fsx}
 \end{document}
