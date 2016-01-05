@@ -55,7 +55,11 @@ type Hand(hand) =
     let testCard = Card(-1,Spades)
     let newHand = Array.create len testCard
     let test (card:Card) = card.toString()=testCard.toString()
+#if TEST
+    let rnd = System.Random(123)
+#else
     let rnd = System.Random()
+#endif
     for i in 0..(len-1) do
       let mutable j = rnd.Next(0,len)
       while test c.[j] do
