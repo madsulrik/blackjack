@@ -30,6 +30,28 @@
 \usepackage{color}
 \usepackage{textcomp}
 
+\renewcommand{\figurename}{Figur}
+\renewcommand{\contentsname}{Indholdsfortegnelse}
+\renewcommand{\contentsname}{Table of Contents}
+\renewcommand{\lstlistingname}{Kodestykke}
+\renewcommand{\partname}{Afsnit}
+
+\def\sectionautorefname~#1\null{%
+  Afsnit #1\null
+}
+
+\def\subsectionautorefname~#1\null{%
+  Afsnit #1\null
+}
+
+\def\figureautorefname~#1\null{%
+  Figur #1\null
+}
+
+\def\equationautorefname~#1\null{%
+  Ligning #1\null
+}
+
 \def\namedlabel#1#2{\begingroup
     #2%
     \def\@currentlabel{#2}%
@@ -409,7 +431,7 @@
       \subsection{Brugervejledning} \label{ssec:manual}
         Dette afsnit vil være en step-by-step guide til brug af det udviklede program,
         det skal ikke ses som en vejledning til at spille SimpleJack. Her findes altså ikke nogle regler
-        i dette afsnit, men de kan ses i Afsnit \ref{ssec:demands} - \nameref{ssec:demands}.
+        i dette afsnit, men de kan ses i Afsnit \namedref{ssec:demands}.
 
         Spillet startes ved at køre filen \path{src/game.exe}. \\
         
