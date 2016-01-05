@@ -357,13 +357,42 @@
           og mindre end 25.
       
         \item{\texttt{validate\_yn}}~\\
-          Validere om inputtet er i mængden {y, n} af strings.
+          Validere om inputtet er i mængden {y, n} af strenge.
 
         \item{\texttt{printScoreboard}}~\\
+          Printer scoreboarded for et spil i konsolen, med den nuværende spiller valgt.
+          Hver \texttt{Player} har en scoreboard metode, der printer deres eget scoreboard.
+          Denne hjælpefunktion printer derfor først headeren, derefter looper over alle spillerne og printer deres
+          og til sidst printes dealerens scoreboard.
 
         \item{\texttt{selectPlayer}}~\\
+          Funktionen tager et \texttt{Player} objekt,
+          og så tilføjes der en linje med X'er i konsollen under spillerens scoreboard,
+          for at vise at det er den spiller der har tur.
 
         \item{AI}~\\
+          Denne funktion agere AI logik for de spillere der er flagged det.
+          Systemet er delt op i nogle forskellige trin.
+
+          \begin{enumerate}
+            \item Først beregnes værdien af den spiller der har højest værdi under 22
+            \item Så venter systemet 500ms for at simulere lidt menneskelig tænketid
+            \item Så beregnes differencen mellem 21 og AI'ens score (den kalder vi diff)
+            \item Derefter tælles antal S'er der ikke er i brug
+            \item Dernæst tælles antal kort, ikke i brug, $value \leq diff$
+          \end{enumerate}
+
+          Når ovenstående trin er gjort, kommer selve stadiet hvor der skal tages et valg.
+          For at AI'en vælger at tage et kort til, skal en af følgende være opfyldt.
+
+          \begin{itemize}
+            \item Der er 31 eller flere kort $value \leq diff$
+            \item Hvis AI har min et es og der er 21 eller flere kort <= diff
+            \item Hvis AI ligger under 4 point under den bedste spiller og der er 26 eller flere kort hvor $value \leq diff$,
+            dette er for at simulere Human Stupidity eller Daredevils.
+          \end{itemize}
+
+          Til sidst printes scoreboardet for spillet og spilleren markeres som stadigvæk at have tur.
       \end{description}
       
     \subsection{Klasser} \label{ssec:classes}
