@@ -3,11 +3,11 @@
 open Blackjack
 open Headers
 
-/// <summary>Validates if string length is greater than 0 and less than 25,
+/// <summary>Validates if string length is greater than 0 and less than 16,
 ///   if that is true, then str is a valid name
 /// </summary>
 /// <param name="str:string">Input string</param>
-let validate_name str = String.length str > 0 && String.length str < 25
+let validate_name str = String.length str > 0 && String.length str < 16
 
 /// <summary>Validates if str is either "y" or "n"</summary>
 /// <param name="str:string">The input string</param>

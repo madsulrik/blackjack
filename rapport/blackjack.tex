@@ -316,51 +316,53 @@
       \end{enumerate}
       De kan vælges ved at bruge taster "1" eller "2".
 
-    \paragraph*{printScoreboard)}
+    \paragraph*{printScoreboard}~\\
 
-    \paragraph*{selectPlayer)}
+    \paragraph*{selectPlayer}~\\
 
-    \paragraph*{AI)}
+    \paragraph*{AI}~\\
 
-    \paragraph*{main)}
+    \paragraph*{main}~\\
 
-    \paragraph*{setup)}
+    \paragraph*{setup}~\\
       Setup funktionen håndtere start af et nyt spil.
 
     \subsection{Hjælpefunktioner} \label{ssec:helpers}
       De følgende hjælpefunktioner kan findes i filen \path{game.fsx}:
-      \paragraph*{validate name)}
-        Validere om længden af navnet(string) er større end nul,
-        og mindre end 25.
+      \begin{description}
+        \item{\texttt{validate name}}~\\
+          Validere om længden af navnet(string) er større end nul,
+          og mindre end 25.
       
-      \paragraph*{validate yn)}
-        Validere om inputtet er i mængden {y, n} af strings.
+        \item{\texttt{validate yn}}~\\
+          Validere om inputtet er i mængden {y, n} af strings.
       
-      De følgende hjælpefunktioner kan findes i filen \path{blackjack.fsx}:
+        De følgende hjælpefunktioner kan findes i filen \path{blackjack.fsx}:
       
-      \paragraph*{readln)}
-        Alias for \lstinline$System.Console.ReadLine()$
-        Der læses en linje fra konsollen og det returneres.
+        \item{\texttt{readln}}~\\
+          Alias for \lstinline$System.Console.ReadLine()$
+          Der læses en linje fra konsollen og det returneres.
 
-      \paragraph*{setcursor)}
-        Typedefinitionen for funktioen er \lstinline$setcursor(x,y)$.
-        Alias for \lstinline$System.Console.SetCursorPosition(x,y)$
-        Placere kurseren et bestemt sted i konsollen.
+        \item{\texttt{setcursor}}~\\
+          Typedefinitionen for funktioen er \lstinline$setcursor(x,y)$.
+          Alias for \lstinline$System.Console.SetCursorPosition(x,y)$
+          Placere kurseren et bestemt sted i konsollen.
 
-      \paragraph*{clear)}
-        Alias for \lstinline$System.Console.Clear()$.
-        Clear tømmer konsollen, så alt indhold fjernes.
+        \item{\texttt{clear}}~\\
+          Alias for \lstinline$System.Console.Clear()$.
+          Clear tømmer konsollen, så alt indhold fjernes.
 
-      \paragraph*{write)}
-        Typedefinitionen for funktioen er \lstinline$write (str:string)$.
-        Alias for \lstinline$System.Console.Write str$
-        Der skrives en string ud i konsollen, uden at der tilføjes ekstra nye linjer eller anden formatering.
+        \item{\texttt{write}}~\\
+          Typedefinitionen for funktioen er \lstinline$write (str:string)$.
+          Alias for \lstinline$System.Console.Write str$
+          Der skrives en string ud i konsollen, uden at der tilføjes ekstra nye linjer eller anden formatering.
 
-      \paragraph*{writeln)}
-        Typedefinitionen for funktioen er \lstinline$writeln (str:string)$.
-        Alias for \lstinline$System.Console.WriteLine str$.
-        Der skrives en linje i konsollen.
-
+        \item{\texttt{writeln}}~\\
+          Typedefinitionen for funktioen er \lstinline$writeln (str:string)$.
+          Alias for \lstinline$System.Console.WriteLine str$.
+          Der skrives en linje i konsollen.
+      \end{description}
+      
   \section{Afprøvning} \label{sec:unitTest}
 
 	\section{Diskussion og konlusion} \label{sec:conclusion}
