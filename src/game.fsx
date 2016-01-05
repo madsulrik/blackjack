@@ -67,6 +67,11 @@ let AI (game:Game) (player:Player) =
 ///
 let rec main (game:Game) =
   for player in game.players do
+    game.draw player
+    game.draw player
+  game.draw game.dealer
+  game.draw game.dealer
+  for player in game.players do
     printScoreboard game
     selectPlayer player
     if player.AI=true then 
