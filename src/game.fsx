@@ -66,11 +66,14 @@ let AI (game:Game) (player:Player) =
 /// <param name="game:Game">The game object</param>
 /// <returns>unit</returns>
 let rec main (game:Game) =
+  // Give players cards    
   for player in game.players do
     game.draw player
     game.draw player
   game.draw game.dealer
   game.draw game.dealer
+
+  // Each players turn
   for player in game.players do
     printScoreboard game
     selectPlayer player
@@ -84,7 +87,8 @@ let rec main (game:Game) =
           game.draw player
         printScoreboard game
         selectPlayer player
-  AI game game.dealer
+      AI game game.dealer
+        
   let mutable winners = [||]:(Player array)
   for player in game.players do
     if player.isBusted()=false && player.score > game.dealer.score then
