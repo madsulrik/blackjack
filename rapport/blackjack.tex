@@ -42,6 +42,7 @@
 \definecolor{redstrings}{rgb}{0.5,0,0}
 \definecolor{lightgray}{RGB}{240, 240, 240}
 
+\newcommand{\namedref}[1]{\autoref{#1} - \nameref{#1}}
 
 \lstdefinelanguage{FSharp}
 				{morekeywords={\#load, \#r, let, new, match, with, rec, open, module, namespace, type, of, member, and, for, in, do, begin, end, fun, function, try, mutable, if, then, else, List, Set, Sudoku, Seq, false, true, Assert, printfn, print, sprintf, when, ->, >, ::, printf, yield},
@@ -360,10 +361,10 @@
       Menufunktionen holder styr på hovedmenuen, den er vist i \lstinline$menuHeader$.
       Når menuen vises, fjernes alt det der tidligere har været i konsollen.
       Denne menu giver spilleren to muligheder:
-      \begin{enumerate}
+      \begin{itemize}
         \item 1 - New game, setup() og menu() kaldes
         \item 2 - Exit game
-      \end{enumerate}
+      \end{itemize}
       De kan vælges ved at bruge taster "1" eller "2".
       
       \item{\texttt{setup}}~\\
@@ -394,7 +395,38 @@
         det skal ikke ses som en vejledning til at spille SimpleJack. Her findes altså ikke nogle regler
         i dette afsnit, men de kan ses i Afsnit \ref{ssec:demands} - \nameref{ssec:demands}.
 
-        Spillet startes ved at køre filen \path{src/game.exe}.
+        Spillet startes ved at køre filen \path{src/game.exe}. \\
+        
+        Det første det vises vil være spillets hovedmenu, der kan ses i \namedref{fig:mainMenu}.
+        I hovedmenuen er der følgende to muligheder:
+        \begin{itemize}
+          \item 1 - Start nyt spil
+          \item 2 - Afslut programmet
+        \end{itemize}
+        De kan vælges ved at skrive numrene i kommandopromten.
+
+        Hvis mulighed nummer et vælges, begyndes et nyt spil og antal spillere skal vælges (Se \namedref{fig:selectPlayers}).
+        Dette tal inkludere AI spillere, men er eksklusivt dealeren.
+
+        Når antal spillere er valgt, vil der for hver spiller være krævet to inputs,
+        først "navn" og derefter om spilleren er AI.
+        Disse to skræme kan ses i \namedref{fig:selectPlayerName} og \namedref{fig:selectPlayerIsHuman}.
+
+        Nu er spillet klar til at gå i gang, og den første spiller starter.
+        Alle spillere starter med 2 kort.
+        Den nuværende spiller er markeret med en række af X'er. (Se \namedref{fig:scoreboardDealed}).
+
+        Den nuværende spiller kan nu vælge mellem to kommandoer:
+        - Hvis summen af en spillers kort er 21 eller større, gives turen videre.
+        \begin{enumerate}
+          \item \"hit\" - Trækker et nyt kort
+          \item \"stand\" - Giver turen videre (Se \namedref{fig:player3Turn})
+        \end{enumerate}
+
+        AI spillere har et delay mellem hver af deres kommandoer, så det føles virkeligt.
+
+        Når alle spillerene har haft tur, er det dealerens tur og efter et lille delay kan spillet afgøres.
+        Herefter annonceres vinder(ne)(Se \namedref{fig:winnerIsFound}).
 
       \subsection{Kildekode} \label{ssec:sourceCode}
         Dette afsnit indeholder alt den kode der er blevet udviklet til projektet,
