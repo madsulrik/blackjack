@@ -333,16 +333,16 @@
       
       De følgende hjælpefunktioner kan findes i filen \path{/src/game.fsx}, og er relateret til selve game-flowet:
       \begin{description}
-        \item{\texttt{validate name}}~\\
+        \item{\texttt{validate\_name}}~\\
           Validere om længden af navnet(string) er større end nul,
           og mindre end 25.
       
-        \item{\texttt{validate yn}}~\\
+        \item{\texttt{validate\_yn}}~\\
           Validere om inputtet er i mængden {y, n} af strings.
 
         \item{\texttt{printScoreboard}}~\\
 
-        \item{\texttt{select\texttt{Player}}}~\\
+        \item{\texttt{selectPlayer}}~\\
 
         \item{AI}~\\
       \end{description}
@@ -350,6 +350,8 @@
     \subsection{Klasser} \label{ssec:classes}
       \begin{description}
         \item{\texttt{\texttt{Card}}}~\\
+          Som beskrevet i \namedref{sec:design}, repræsenterer \texttt{Card} et kort ved at indeholde en kulør og en værdi.
+          
         \item{\texttt{\texttt{Hand}}}~\\
         \item{\texttt{\texttt{Player}}}~\\
         \item{\texttt{Game}}~\\
