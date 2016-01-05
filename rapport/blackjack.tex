@@ -156,36 +156,36 @@
 
 \section{Forord}
   Denne opgave er lavet i Programmering og Problemløsning(PoP),
-    på Datalogisk Institut - Københavns Universitet(DIKU) - første semester år 2015.
+    på Datalogisk Institut - Københavns Universitet(DIKU) - første semester år 2015/2016.
     Opgaven har opgavenummeret 10g, målet for opgaven er at
     udvikle en spilbar version af spillet SimpleJack.
-
-  Formålet med opgaven har været at lære at bruge objekter og klasser.
 
 \newpage
     
 \section{Introduktion} \label{sec:introduction}
+   Formålet med opgaven har været at lære at bruge objekter og klasser.
+
   \paragraph*{Sådan kompilerer du projektet\\}
-  I \path{/src} mappen ligger der en Makefile og hvis man kører den, 
-  kompileres \lstinline$game.exe$,
-  begge filer kan findes i mappen \path{/src}.
-  Kommandoen til at kompilerer er  \lstinline$make$ og kan den kan skrives i terminalen.
+    I \path{/src} mappen ligger der en Makefile og hvis man kører den, 
+    kompileres \path{game.exe},
+    begge filer kan findes i mappen \path{/src}.
+    Kommandoen til at kompilerer er  \lstinline$make$ og kan skrives i terminalen.
 
-  Derudover kan man kompilerer projektet med dokumentation, ved at bruge kommandoen \lstinline$make withdocs$
+    Derudover kan man kompilerer projektet med dokumentation, ved at bruge kommandoen \lstinline$make withdocs$
 
-  Tests findes i  mappen \path{/src}, i filen \lstinline$tests.fsx$,
-  og kan kompileres med \lstinline$fsharpc$ og køres med \lstinline$mono$.
+    Tests findes i  mappen \path{/src}, i filen \path{tests.fsx},
+    og kan kompileres med \lstinline$fsharpc$ og køres med \lstinline$mono$.
 
 \section{Problemformulering} \label{sec:problem}
   I dette afsnit vil vi introducere det problem vi ønsker at løse med programmet,
   og beskrive hvordan vi har forstået den udleverede kravspecifikation.
 
   I dette projekt vil vi gerne udvikle et program der kan spilles af 1-5 spillere i kommandoprompten,
-  med mulighed for AI. Programmet er implementeret i F\# og følger reglerne for SimpleJack der er beskrevet i afsnit \ref{ssec:demands} - \nameref{ssec:demands}.
+  med mulighed for AI. Programmet er implementeret i F\# og følger reglerne for SimpleJack der er beskrevet i afsnit \namedref{ssec:demands}.
 
   \subsection{Kravspecifikation} \label{ssec:demands}
-    Undervisningforløbet hvorigennem dette projekt udfodler sig, er der fokus på klasser og objekter,
-    via ement ”\textit{Object Orienteret Programmering}” (OOP).
+    Undervisningforløbet hvorigennem dette projekt udfolder sig, er der fokus på klasser og objekter,
+    gennem emnet ”\textit{Object Orienteret Programmering}” (OOP).
     Et af kravene, er defor at progammet skal være designet efter det objekt-orienteret paradigme.
     Hertil kommer, at projektet skal planlægges gennem bl.a. et UML diagram.
 
