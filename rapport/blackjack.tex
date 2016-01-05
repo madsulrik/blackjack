@@ -67,7 +67,7 @@
 \newcommand{\namedref}[1]{\autoref{#1} - \nameref{#1}}
 
 \lstdefinelanguage{FSharp}
-				{morekeywords={\#load, \#r, let, new, match, with, rec, open, module, namespace, type, of, member, and, for, in, do, begin, end, fun, function, try, mutable, if, then, else, List, Set, Sudoku, Seq, false, true, Assert, printfn, print, sprintf, when, ->, >, ::, printf, yield},
+				{morekeywords={\#load, \#r, let, new, match, with, rec, open, module, namespace, type, of, member, and, for, in, do, begin, end, fun, function, try, mutable, if, then, else, List, Set, Sudoku, Seq, false, true, Assert, printfn, print, sprintf, when, ->, >, ::, printf, yield, this},
 	keywordstyle=\color{bluekeywords},
 	sensitive=false,
 	morecomment=[l][\color{greencomments}]{///},
@@ -135,27 +135,16 @@
   extendedchars=true,
   mathescape=true,
   %escapeinside={(*}{*)},
-  literate=
-	{æ}{{\ae}}1
-	{å}{{\aa}}1
-	{ø}{{\o}}1
-	{Æ}{{\AE}}1
-	{Å}{{\AA}}1
-	{Ø}{{\O}}1
-	{ü}{{\"u}}1
-	{├}{{?}}1
-	{┐}{{?}}1
-	{┌}{{?}}1
-	{┘}{{?}}1
-	{└}{{?}}1
-	{╞}{{?}}1
-	{╪}{{?}}1
-	{╬}{{?}}1
-	{┌}{{?}}1
-	{┼}{{?}}1
-}
+  extendedchars=\true,
+  inputencoding=ansinew
+  }
 
 \setlength\parindent{0pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Package or using suits
+\usepackage{kmath,kerkis}
+\normalfont
 
 \title{Simple Jack - Programmering og Problemløsning}
 \author{Mads U. Svendsen, Anders F. Jørgensen, Nicolai L. Hargreave, Bo H. Thomsen}
@@ -292,7 +281,7 @@
       der kan bruges til at reprænsetere kortet når spillepladen vises.
 
       Udover suit og value, har kortet en funktion \lstinline$toString()$ der returnere en tekst repræsentation af kortet.
-      \lstinputlisting[caption={\texttt{Card}'s toString metode},label={lst:cardToString},firstline=18,lastline=32]{code/blackjack.fsx}
+      \lstinputlisting[caption={\texttt{Card}'s toString metode},label={lst:cardToString},firstline=18,lastline=32]{../src/blackjack.fsx}
 
       \subsubsection*{Suits} \label{sssec:suits}
       En enumeration er, specielt i OOP, en god måde at repræsentere forskellige værdier for det sammen field, 
@@ -398,7 +387,12 @@
     \subsection{Klasser} \label{ssec:classes}
       \begin{description}
         \item{\texttt{\texttt{Card}}}~\\
-          Som beskrevet i \namedref{sec:design}, repræsenterer \texttt{Card} et kort ved at indeholde en kulør og en værdi.
+          Som beskrevet i \namedref{sec:design}, repræsenterer \texttt{Card} et fysisk kort ved 
+          kulør og værdi. Kuløren er givet ved enumerationen \texttt{Suits}, som har værdier: 
+          Hearts, \textit{Spades}, \textit{Diamonds}, \textit{Clubs}. Værdien er angivet som 
+          et heltal; det gyldige interval er fra 1-13.
+          \texttt{Card}'s eneste metode er \textit{toString}, som tager kulør og værdi og sætter 
+          dem sammen i streng, som fx ”$\varheartsuit$”
           
         \item{\texttt{\texttt{Hand}}}~\\
         \item{\texttt{\texttt{Player}}}~\\
@@ -496,8 +490,8 @@
         Dette afsnit indeholder alt den kode der er blevet udviklet til projektet,
         både klasser, spillogik og tests.
 
-        \lstinputlisting[caption={Spilklasser},label={lst:blackjack}]{code/blackjack.fsx}
-        \lstinputlisting[caption={Spillogikken},label={lst:game}]{code/game.fsx}
+        \lstinputlisting[caption={Spilklasser},label={lst:blackjack}]{../src/blackjack.fsx}
+        \lstinputlisting[caption={Spillogikken},label={lst:game}]{../src/game.fsx}
         \lstinputlisting[caption={Tests},label={lst:tests}]{../src/tests.fsx}
 
       \subsection{Billeder}
