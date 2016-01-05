@@ -154,28 +154,27 @@
         
   \tableofcontents
 
-  \newpage
-
 \section{Forord}
-    
-\section{Introduktion} \label{sec:introduction}
-    Denne opgave er lavet i Programmering og Problemløsning(PoP),
-    på Datalogisk Institut - Københavns Universitet(DIKU).
+  Denne opgave er lavet i Programmering og Problemløsning(PoP),
+    på Datalogisk Institut - Københavns Universitet(DIKU) - første semester år 2015.
     Opgaven har opgavenummeret 10g, målet for opgaven er at
     udvikle en spilbar version af spillet SimpleJack.
 
-    \paragraph*{Sådan kompilerer du projektet\\}
-    I \path{/src} mappen ligger der en Makefile og hvis man kører den, 
-    kompileres \lstinline$game.exe$,
-    begge filer kan findes i mappen \path{/src}.
-    Kommandoen til at kompilerer er  \lstinline$make$ og kan den kan skrives i terminalen.
-
-    Derudover kan man kompilerer projektet med dokumentation, ved at bruge kommandoen \lstinline$make withdocs$
-
-    Tests findes i  mappen \path{/src}, i filen \lstinline$tests.fsx$,
-    og kan kompileres med \lstinline$fsharpc$ og køres med \lstinline$mono$.
+  Formålet med opgaven har været at lære at bruge objekter og klasser.
 
 \newpage
+    
+\section{Introduktion} \label{sec:introduction}
+  \paragraph*{Sådan kompilerer du projektet\\}
+  I \path{/src} mappen ligger der en Makefile og hvis man kører den, 
+  kompileres \lstinline$game.exe$,
+  begge filer kan findes i mappen \path{/src}.
+  Kommandoen til at kompilerer er  \lstinline$make$ og kan den kan skrives i terminalen.
+
+  Derudover kan man kompilerer projektet med dokumentation, ved at bruge kommandoen \lstinline$make withdocs$
+
+  Tests findes i  mappen \path{/src}, i filen \lstinline$tests.fsx$,
+  og kan kompileres med \lstinline$fsharpc$ og køres med \lstinline$mono$.
 
 \section{Problemformulering} \label{sec:problem}
   I dette afsnit vil vi introducere det problem vi ønsker at løse med programmet,
@@ -235,7 +234,6 @@
       \item Vælg altid "Hit", medmindre summen af egne kort kan være 17 eller over, ellers vælg "Stand"
       \item Vælg tilfældigt mellem "Hit"og "Stand". Hvis "Hit"vælges trækkes et kort og der vælges igen tilfældigt mellem "Hit"og "Stand"osv.
     \end{enumerate}
-  \newpage
 
   \section{Problemanalyse og design} \label{sec:design}
     I dette afsnit vil vi beskrive hvilken struktur vi har tænkt os at opbygge vores programefter.
@@ -422,7 +420,6 @@
       \item{\texttt{main}}~\\
         
     \end{description}
-      
       
   \section{Afprøvning} \label{sec:unitTest}
     Til at sørge for at vores funktioner virker korrekt har vi
