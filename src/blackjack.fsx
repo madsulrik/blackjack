@@ -132,6 +132,7 @@ type Player(name,index,AI) =
     System.Console.Write empty
     System.Console.SetCursorPosition(x,y+7)
     System.Console.Write bottom
+    System.Console.SetCursorPosition(0,y+8)
   new(name, index) =
     Player(name, index, false)
 
