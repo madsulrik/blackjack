@@ -101,23 +101,26 @@ handTest3.draw(Card(1, Hearts))
 handTest3.replaceWith [|Card(1, Spades)|]
 
 // Hand.shuffle
-let handTest4 = Hand()
+let handTest4 = Hand() // only works if the symbol TEST is defined
 handTest4.draw(Card(1, Hearts))
 handTest4.draw(Card(1, Spades))
 handTest4.draw(Card(1, Diamonds))
 handTest4.draw(Card(1, Clubs))
 handTest4.shuffle()
 
-let card1 = handTest4.cards.[0]
-let card2 = handTest4.cards.[1]
-let card3 = handTest4.cards.[2]
-let card4 = handTest4.cards.[3]
+let card1 = handTest1.cards.[0]
+let card2 = handTest2.cards.[0]
+let card3 = handTest3.cards.[0]
+let card4 = handTest4.cards.[0]
+let card5 = handTest4.cards.[1]
+let card6 = handTest4.cards.[2]
+let card7 = handTest4.cards.[3]
 
-printfn "Hand.draw %A" (handTest1.cards.[0].value = 1 && handTest1.cards.[0].suit = Spades)
-printfn "Hand.drop %A" (handTest2.cards.[0].value = 1 && handTest2.cards.[0].suit = Spades)
-printfn "Hand.replaceWith %A" (handTest3.cards.[0].value = 1 && handTest3.cards.[0].suit = Spades)
-printfn "Hand.shuffle %A" (card1.value = 1 && card1.suit = Hearts &&
-                           card2.value = 1 && card2.suit = Spades &&
-                           card3.value = 1 && card3.suit = Clubs &&
-                           card4.value = 1 && card4.suit = Diamonds)
+printfn "handTest1 %A" (card1.value = 1 && card1.suit = Spades)
+printfn "handTest2 %A" (card2.value = 1 && card2.suit = Spades)
+printfn "handTest3 %A" (card3.value = 1 && card3.suit = Spades)
+printfn "handTest4 %A" (card4.value = 1 && card4.suit = Hearts &&
+                        card5.value = 1 && card5.suit = Spades &&
+                        card6.value = 1 && card6.suit = Clubs &&
+                        card7.value = 1 && card7.suit = Diamonds)
 
