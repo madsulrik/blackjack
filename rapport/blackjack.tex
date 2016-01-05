@@ -33,7 +33,7 @@
 \renewcommand{\figurename}{Figur}
 \renewcommand{\contentsname}{Indholdsfortegnelse}
 \renewcommand{\contentsname}{Table of Contents}
-\renewcommand{\lstlistingname}{Kodestykke}
+\renewcommand{\lstlistingname}{Kildekode}
 \renewcommand{\partname}{Afsnit}
 
 \def\sectionautorefname~#1\null{%
@@ -146,6 +146,15 @@
 \usepackage{kmath,kerkis}
 \normalfont
 
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+ 
+\pagestyle{fancy}
+\fancyhf{}
+ 
+\rhead{Mads U. Svendsen, Anders F. Jørgensen, Nicolai L. Hargreave, Bo H. Thomsen}
+\rfoot{Side \thepage \hspace{1pt} af \pageref{LastPage}}
+
 \title{Simple Jack - Programmering og Problemløsning}
 \author{Mads U. Svendsen, Anders F. Jørgensen, Nicolai L. Hargreave, Bo H. Thomsen}
 
@@ -169,12 +178,13 @@
     I \path{/src} mappen ligger der en Makefile og hvis man kører den, 
     kompileres \path{game.exe},
     begge filer kan findes i mappen \path{/src}.
-    Kommandoen til at kompilerer er  \lstinline$make$ og kan skrives i terminalen.
+    Følgende kommandoer er tilgængelige for vores makefile:
+    \begin{itemize}
+      \item \lstinline$make$ Kompilere både projektet og tests
+      \item \lstinline$make withdocs$ Kompilere projektet, tests og dokumentation
+    \end{itemize}
 
-    Derudover kan man kompilerer projektet med dokumentation, ved at bruge kommandoen \lstinline$make withdocs$
-
-    Tests findes i  mappen \path{/src}, i filen \path{tests.fsx},
-    og kan kompileres med \lstinline$fsharpc$ og køres med \lstinline$mono$.
+    Tests findes i  mappen \path{/src}, i filen \path{tests.fsx}.
 
 \section{Problemformulering} \label{sec:problem}
   I dette afsnit vil vi introducere det problem vi ønsker at løse med programmet,
@@ -236,34 +246,34 @@
     \end{enumerate}
 
   \section{Problemanalyse og design} \label{sec:design}
-    I dette afsnit vil vi beskrive hvilken struktur vi har tænkt os at opbygge vores programefter.
+    I dette afsnit vil vi beskrive hvilken struktur vi har tænkt os at opbygge vores program efter.
     Vi vil introducere et UML diagram og beskrive de tanker der ligger bag vores designvalg.
 
     \subsection*{Struktur}
-      Vores design bygger op omkring fire kerne klasser,
+      Vores design er bygget op omkring fire kerne klasser,
       \texttt{Game}, \texttt{\texttt{Player}}, \texttt{\texttt{Hand}} og \texttt{\texttt{Card}} og en enumeration kaldet \texttt{\texttt{Suits}} - der huser de fire forskellige kulører.
       Programmet er designet nedefra og op, så de mindre enheder som \texttt{\texttt{Card}} og \texttt{\texttt{Hand}} blev designet før \texttt{\texttt{Player}}, som blev gennemtænkt før \texttt{Game}-klassen. 
-      Denne fremgangsmåde blev valgt, da det ville give et større overblik. Med overblik menes der over projektet, efterhånden som det bliver mere komplekst. Hermed havde vi også ”byggestenene” for hvad de større enheder skulle kunne indeholde (fx. \texttt{Game}).
+      Denne fremgangsmåde blev valgt, da det ville give et større overblik. Hermed havde vi også ”byggestenene” for hvad de større enheder skulle kunne indeholde (fx. \texttt{Game}).
 
       \subsubsection*{Game}
-      \texttt{Game}-klassen står for håndtering af spillet, ved at gemme: Spillerne i en \texttt{Player} tabel; dealeren som en \texttt{Player}; kortbunken for spillet, som en \texttt{Hand}.
+      \texttt{Game}-klassen står for håndtering af spillet, ved at gemme: Spillerne i et \texttt{Player} array; dealeren som en \texttt{Player}; kortbunken for spillet, som en \texttt{Hand}.
       Herudover indeholder \texttt{Game} antallet af spillere, for hurtigt og let at kunne tilgå denne oplysning.
-      \texttt{Game} indeholder en funktion, kaldet \textit{draw}, der trækker et kort fra kortbunken fra \textit{Game}-instansens kortbunke og vidergiver dette kort til en given spiller (givet).
+      \texttt{Game} indeholder en funktion, kaldet \textit{draw}, der trækker et kort fra kortbunken fra \textit{Game}-instansens kortbunke og vidergiver dette kort til en given spiller. \\
 
-      \texttt{Game} objectets funktion er at holde styr på alt det nødvendige for spil logikken,
-      så al datahåndtering til et spil foregår i dette objekt.
+      \texttt{Game} objektets funktion er at holde styr på alt det nødvendige for spil logikken,
+      dvs at al datahåndtering til et spil foregår i dette objekt.
 
       \subsubsection*{Hand}
-      \texttt{Hand} gemmer en array af \texttt{Card} objekter, og skal være et objekt der håndtere den funktion vores hånd har i et normalt kortspil.
-      En hånd har en funktion der trækker et kort, altid det øverste(stak) denne har vi valgt at kalde \lstinline$drop$,
-      den har en funktion der ligger et kort på stakken denne hedder \lstinline$draw$,
-      så kan hele håndens kort erstattets, hånden skal kunne blandes og hånden skal kunne skrives ud som string.
+      \texttt{Hand} gemmer et array af \texttt{Card} objekter. Dette objekt håndtere den funktion vores hånd har i et virkeligt kortspil.
+      En hånd har en funktion der trækker et kort, altid det øverste(\texttt{som en stak}), denne har vi valgt at kalde \lstinline$drop$.
+      Den har også en funktion der ligger et kort på stakken, denne hedder \lstinline$draw$.
+      Hele håndens kort kan erstattets med \lstinline$replaceWith$. Hånden skal kunne blandes og til sidst skrives ud som streng.
 
       \subsubsection*{Player}
-      En spiller/person skal have et navn(\lstinline$name$) i følge kravspecifikationen,
-      vi bruger også \texttt{Player}-klassen til AI, så derfor har vi også en bool(\lstinline$AI$),
-      \lstinline$index$ er array indexet for \texttt{Player}en i \texttt{Player}s arrayen, eller hvornår spilleren har tur,
-      og hand er et \texttt{Hand} objekt der indeholder spillerens hånd.
+      En spiller/person skal have et navn(\lstinline$name$) i følge kravspecifikationen.
+      Fordi vi også bruger \texttt{Player}-klassen til AI har vi en bool(\lstinline$AI$).
+      \lstinline$index$ er array indexet for \texttt{Player}en i \texttt{Player}s arrayen - kan også ses som hvornår spilleren har tur.
+      Hand er et \texttt{Hand} objekt der indeholder spillerens hånd.
 
       Ved siden af de properties har vi en \lstinline$score$ funktion der beregner spillens score,
       ved at gå gennem de kort der er i hånden.
