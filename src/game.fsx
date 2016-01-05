@@ -4,8 +4,7 @@ open Blackjack
 open Headers
 
 /// <summary>Validates if string length is greater than 0 and less than 16,
-///   if that is true, then str is a valid name
-/// </summary>
+/// if that is true, then str is a valid name</summary>
 /// <param name="str:string">Input string</param>
 let validate_name str = String.length str > 0 && String.length str < 16
 
@@ -25,8 +24,7 @@ let printScoreboard (game:Game) =
   System.Console.WriteLine ""
 
 /// <summary>Adds a selection cursor in the console,
-///   under the selected player
-/// </summary>
+/// under the selected player</summary>
 /// <param name="player:Player">player:Player</param>
 /// <returns>unit</returns>
 let selectPlayer (player:Player) = 
@@ -62,9 +60,11 @@ let AI (game:Game) (player:Player) =
     printScoreboard game
     selectPlayer player
     
-///
-///
-///
+/// <summary>Starts the game state where the players and AI
+/// can take actions, the dealer can react and the win
+/// conditions are checked</summary>
+/// <param name="game:Game">The game object</param>
+/// <returns>unit</returns>
 let rec main (game:Game) =
   for player in game.players do
     game.draw player
@@ -112,9 +112,9 @@ let rec main (game:Game) =
     game.dealer.hand.replaceWith [||]
     main(Game(game.dealer,game.players))
 
-///
-///
-///
+/// <summary>Starts the setup state where the number of players
+/// and/or AI are chosen and the game started</summary>
+/// <returns>unit</returns>
 let setup() =
   clear()
   write header
@@ -152,9 +152,9 @@ let setup() =
   let dealer = Player("Dealer",numberOfPlayers,true)
   main(Game(dealer,players))
 
-///
-///
-///
+/// <summary>Starts the menu state where the user can
+/// choose to start the setup or exit the game</summary>
+/// <returns>unit</returns>
 let rec menu() =
   clear()
   write menuHeader
