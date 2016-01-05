@@ -437,14 +437,22 @@
           \item{{\texttt{toString}}}~\\
             \textit{toString} er en metode, som laver en visuel repræsentation (returnerer tegnfølgen),
             af kortene på hånden. Dette gøres gennem et for-loop, hvor alle kortene køres igennem.
-            For alle kort, borset fra første, preprendes et whitespace, for at adskille kortene.
+            For hvert kort, borset fra det første, preprendes et whitespace, for at adskille kortene.
             Eftersom kortene er af klassen \texttt{Card}, anvendes \texttt{Card}.toString metoden på 
             hvert kort.
             
           \item{{\texttt{shuffle}}}~\\
           \textit{shuffle} blander kortene på hånden. Dette gøres ved oprette en tom tabel, som har 
-          samme længde som antallet af kort på hånden. Herefter køres hvert kort på hånden igennem, og for hvert kort findes et tilfældigt nummer fra 0 til det maksimale indeks
-            
+          samme længde som antallet af kort på hånden. Herefter køres hvert kort på hånden igennem. For 
+          hvert kort findes et tilfældigt nummer/indeks fra 0 til det maksimale indeks. Hvis det fundne 
+          indeks matcher en fyldt plads i den nye tabel findes et nyt tilfældigt nummer, indtil en tom 
+          plads er fundet, hvor det pågældende kort indsættes på denne plads.
+          Når dette er gjort for alle kort overskrives den gamle hånd med den nye.
+          
+          \item{{\texttt{replaceWith}}}~\\
+          \textit{replaceWith} tager parameteren \textit{cards}, som overskriver de kort som er på 
+          hånden.
+          
         \end{description}
         
         Den primære constructor for \texttt{Hand} er hvor en tabel af \texttt{Card} angives. Disse kort 
@@ -527,7 +535,7 @@
         Dette tal inkludere AI spillere, men er eksklusivt dealeren.
 
         Når antal spillere er valgt, vil der for hver spiller være krævet to inputs,
-        først "navn" og derefter om spilleren er AI.
+        først ”navn” og derefter om spilleren er AI.
         Disse to skræme kan ses i \namedref{fig:selectPlayerName} og \namedref{fig:selectPlayerIsHuman}.
 
         Nu er spillet klar til at gå i gang, og den første spiller starter.

@@ -110,33 +110,33 @@ type Player(name,index,AI) =
     let bottom = "–––––––––––––––––––––––––" + space
     let x = (String.length top - String.length space)*(this.index%3) + (this.index)%3
     let y = (8*(this.index/3)+5)
-    System.Console.SetCursorPosition(x,y)
-    System.Console.Write top
-    System.Console.SetCursorPosition(x,y+1)
-    System.Console.Write empty
+    setcursor(x,y)
+    write top
+    setcursor(x,y+1)
+    write empty
     let xn = (String.length empty)/2 - (String.length this.name)/2
-    System.Console.SetCursorPosition(x+xn,y+1)
-    System.Console.Write this.name
-    System.Console.SetCursorPosition(x,y+2)
-    System.Console.Write middle
-    System.Console.SetCursorPosition(x,y+3)
-    System.Console.Write empty
+    setcursor(x+xn,y+1)
+    write this.name
+    setcursor(x,y+2)
+    write middle
+    setcursor(x,y+3)
+    write empty
     let xc = (String.length empty)/2 - (String.length (h.toString()))/2
-    System.Console.SetCursorPosition(x+xc,y+3)
-    System.Console.Write (h.toString())
-    System.Console.SetCursorPosition(x,y+4)
-    System.Console.Write empty
+    setcursor(x+xc,y+3)
+    write (h.toString())
+    setcursor(x,y+4)
+    write empty
     let score = sprintf "(%d)" this.score
     let xs = (String.length empty)/2 - (String.length (score))/2
-    System.Console.SetCursorPosition(x+xs,y+4)
-    System.Console.Write score
-    System.Console.SetCursorPosition(x,y+5)
-    System.Console.Write middle
-    System.Console.SetCursorPosition(x,y+6)
-    System.Console.Write empty
-    System.Console.SetCursorPosition(x,y+7)
-    System.Console.Write bottom
-    System.Console.SetCursorPosition(0,y+8)
+    setcursor(x+xs,y+4)
+    write score
+    setcursor(x,y+5)
+    write middle
+    setcursor(x,y+6)
+    write empty
+    setcursor(x,y+7)
+    write bottom
+    setcursor(0,y+8)
   new(name, index) =
     Player(name, index, false)
 
