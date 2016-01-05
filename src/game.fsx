@@ -3,15 +3,19 @@
 open Blackjack
 open Headers
 
-///
-///
-///
+/// <summary>Validates if string length is greater than 0 and less than 25,
+///   if that is true, then str is a valid name
+/// </summary>
+/// <param name="str:string">Input string</param>
 let validate_name str = String.length str > 0 && String.length str < 25
+
+/// <summary>Validates if str is either "y" or "n"</summary>
+/// <param name="str:string">The input string</param>
 let validate_yn str = (str = "y" || str = "n")
 
-///
-///
-///
+/// <summary>Prints a game's scoreboard to the console</summary>
+/// <param name="game:Game">The game to print as a Game object</param>
+/// <returns>unit</returns>
 let printScoreboard (game:Game) =
   clear()
   write mainHeader
@@ -19,11 +23,12 @@ let printScoreboard (game:Game) =
     player.scoreboard()
   game.dealer.scoreboard()
   System.Console.WriteLine ""
-  
-  
-///
-///
-///
+
+/// <summary>Adds a selection cursor in the console,
+///   under the selected player
+/// </summary>
+/// <param name="player:Player">player:Player</param>
+/// <returns>unit</returns>
 let selectPlayer (player:Player) = 
   let c = (System.Console.CursorLeft,System.Console.CursorTop)
   let fill = "|XXXXXXXXXXXXXXXXXXXXXXX|"
@@ -33,9 +38,10 @@ let selectPlayer (player:Player) =
   System.Console.Write fill
   System.Console.SetCursorPosition c
 
-///
-///
-///
+/// <summary>Performs AI operations, for the selected player</summary>
+/// <param name="game:Game">The game object</param>
+/// <param name="player:Player"></param>
+/// <returns>unit</returns>
 let AI (game:Game) (player:Player) =
   let mutable bestValue = 0
   for player in game.players do
