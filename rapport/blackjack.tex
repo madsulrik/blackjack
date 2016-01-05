@@ -1,4 +1,3 @@
-
 \documentclass[a4paper]{article}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
@@ -231,33 +230,30 @@
     Vi vil introducere et UML diagram og beskrive de tanker der ligger bag vores designvalg.
 
     \subsection*{Struktur}
-      I dette afsnit vil vi beskrive den strukturelle opbygning vi har overvejet i vores design.
-
       Vores design bygger op omkring fire kerne klasser,
-      Game, Player, Hand og Card og en enumeration kaldet Suits - der huser de fire forskellige kulører.
-      De forskellige klasser skal mimikke fysiske objekter og funktioner der forekommer i spillet.
+      \texttt{Game}, \texttt{\texttt{Player}}, \texttt{\texttt{Hand}} og \texttt{\texttt{Card}} og en enumeration kaldet \texttt{\texttt{Suits}} - der huser de fire forskellige kulører.
+      Programmet er designet nedefra og op, så de mindre enheder som \texttt{\texttt{Card}} og \texttt{\texttt{Hand}} blev designet før \texttt{\texttt{Player}}, som blev gennemtænkt før \texttt{Game}-klassen. 
+      Denne fremgangsmåde blev valgt, da det ville give et større overblik. Med overblik menes der over projektet, efterhånden som det bliver mere komplekst. Hermed havde vi også ”byggestenene” for hvad de større enheder skulle kunne indeholde (fx. \texttt{Game}).
 
       \subsubsection*{Game}
-      Game gemmer Player objekttet for dealeren, en liste af Player objekter af de spillere der deltager
-      og den nuværende stak der kan trækkes fra - denne stak er af typen Hand.
-      Ved siden af det har den en funktion til at returnere antallet af spillere i spillet,
-      det er i princippet bare en funktion der tager længden af players arrayen.
-      Game indeholder også en funktion draw, der trækker et kort fra stack og ligger den ind i den valgte spillers hånd.
+      \texttt{Game}-klassen står for håndtering af spillet, ved at gemme: Spillerne i en \texttt{Player} tabel; dealeren som en \texttt{Player}; kortbunken for spillet, som en \texttt{Hand}.
+      Herudover indeholder \texttt{Game} antallet af spillere, for hurtigt og let at kunne tilgå denne oplysning.
+      \texttt{Game} indeholder en funktion, kaldet \textit{draw}, der trækker et kort fra kortbunken fra \textit{Game}-instansens kortbunke og vidergiver dette kort til en given spiller (givet).
 
-      Game objectets funktion er at holde styr på alt det nødvendige for spil logikken,
+      \texttt{Game} objectets funktion er at holde styr på alt det nødvendige for spil logikken,
       så al datahåndtering til et spil foregår i dette objekt.
 
       \subsubsection*{Hand}
-      Hand gemmer en array af Card objekter, og skal være et objekt der håndtere den funktion vores hånd har i et normalt kortspil.
+      \texttt{Hand} gemmer en array af \texttt{Card} objekter, og skal være et objekt der håndtere den funktion vores hånd har i et normalt kortspil.
       En hånd har en funktion der trækker et kort, altid det øverste(stak) denne har vi valgt at kalde \lstinline$drop$,
       den har en funktion der ligger et kort på stakken denne hedder \lstinline$draw$,
       så kan hele håndens kort erstattets, hånden skal kunne blandes og hånden skal kunne skrives ud som string.
 
       \subsubsection*{Player}
       En spiller/person skal have et navn(\lstinline$name$) i følge kravspecifikationen,
-      vi bruger også Playerklassen til AI, så derfor har vi også en bool(\lstinline$AI$),
-      \lstinline$index$ er array indexet for Playeren i Players arrayen, eller hvornår spilleren har tur,
-      og hand er et Hand objekt der indeholder spillerens hånd.
+      vi bruger også \texttt{Player}-klassen til AI, så derfor har vi også en bool(\lstinline$AI$),
+      \lstinline$index$ er array indexet for \texttt{Player}en i \texttt{Player}s arrayen, eller hvornår spilleren har tur,
+      og hand er et \texttt{Hand} objekt der indeholder spillerens hånd.
 
       Ved siden af de properties har vi en \lstinline$score$ funktion der beregner spillens score,
       ved at gå gennem de kort der er i hånden.
@@ -273,11 +269,11 @@
       der kan bruges til at reprænsetere kortet når spillepladen vises.
 
       Udover suit og value, har kortet en funktion \lstinline$toString()$ der returnere en tekst repræsentation af kortet.
-      \lstinputlisting[caption={Card's toString metode},label={lst:cardToString},firstline=18,lastline=32]{code/blackjack.fsx}
+      \lstinputlisting[caption={\texttt{Card}'s toString metode},label={lst:cardToString},firstline=18,lastline=32]{code/blackjack.fsx}
 
       \subsubsection*{Suits} \label{sssec:suits}
       En enumeration er, specielt i OOP, en god måde at repræsentere forskellige værdier for det sammen field, 
-      når der kun er de mulige værdier for et field. I vores tilfælde, med \lstinline$Card.suit$,
+      når der kun er de mulige værdier for et field. I vores tilfælde, med \lstinline$\texttt{Card}.suit$,
       har vi kun de fire værdier og derfor ift validering, struktur m.m valgte vi at bruge en enumeration.
 
       \begin{figure}[H]
@@ -345,16 +341,16 @@
 
         \item{\texttt{printScoreboard}}~\\
 
-        \item{\texttt{selectPlayer}}~\\
+        \item{\texttt{select\texttt{Player}}}~\\
 
         \item{AI}~\\
       \end{description}
       
     \subsection{Klasser} \label{ssec:classes}
       \begin{description}
-        \item{\texttt{Card}}~\\
-        \item{\texttt{Hand}}~\\
-        \item{\texttt{Player}}~\\
+        \item{\texttt{\texttt{Card}}}~\\
+        \item{\texttt{\texttt{Hand}}}~\\
+        \item{\texttt{\texttt{Player}}}~\\
         \item{\texttt{Game}}~\\
       \end{description}
     

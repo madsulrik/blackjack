@@ -18,10 +18,10 @@ type Card(value,suit) =
   member this.toString() =
     let suit =
       match this.suit with
-      | Spades -> "spade"
-      | Hearts -> "heart"
-      | Diamonds -> "diamond"
-      | Clubs -> "club"
+      | Spades -> "S" // Sign has been replaced for LaTeX-compability
+      | Hearts -> "H" // Sign has been replaced for LaTeX-compability
+      | Diamonds -> "D" // Sign has been replaced for LaTeX-compability
+      | Clubs -> "C" // Sign has been replaced for LaTeX-compability
     let value =
       match this.value with
       | 1 ->  "A"
