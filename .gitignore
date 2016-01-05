@@ -433,3 +433,5 @@ tramp
 *.tmproject
 tmtags
 
+*.pdf
+rapport/blackjack.pdf
