@@ -33,7 +33,7 @@
 \renewcommand{\figurename}{Figur}
 \renewcommand{\contentsname}{Indholdsfortegnelse}
 \renewcommand{\contentsname}{Table of Contents}
-\renewcommand{\lstlistingname}{Kodestykke}
+\renewcommand{\lstlistingname}{Kildekode}
 \renewcommand{\partname}{Afsnit}
 
 \def\sectionautorefname~#1\null{%
@@ -144,6 +144,15 @@
 \usepackage{kmath,kerkis}
 \normalfont
 
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+ 
+\pagestyle{fancy}
+\fancyhf{}
+ 
+\rhead{Mads U. Svendsen, Anders F. Jørgensen, Nicolai L. Hargreave, Bo H. Thomsen}
+\rfoot{Side \thepage \hspace{1pt} af \pageref{LastPage}}
+
 \title{Simple Jack - Programmering og Problemløsning}
 \author{Mads U. Svendsen, Anders F. Jørgensen, Nicolai L. Hargreave, Bo H. Thomsen}
 
@@ -152,39 +161,39 @@
         
   \tableofcontents
 
-  \newpage
-
 \section{Forord}
-    
-\section{Introduktion} \label{sec:introduction}
-    Denne opgave er lavet i Programmering og Problemløsning(PoP),
-    på Datalogisk Institut - Københavns Universitet(DIKU).
+  Denne opgave er lavet i Programmering og Problemløsning(PoP),
+    på Datalogisk Institut - Københavns Universitet(DIKU) - første semester år 2015/2016.
     Opgaven har opgavenummeret 10g, målet for opgaven er at
     udvikle en spilbar version af spillet SimpleJack.
 
-    \paragraph*{Sådan kompilerer du projektet\\}
-    I \path{/src} mappen ligger der en Makefile og hvis man kører den, 
-    kompileres \lstinline$game.exe$,
-    begge filer kan findes i mappen \path{/src}.
-    Kommandoen til at kompilerer er  \lstinline$make$ og kan den kan skrives i terminalen.
-
-    Derudover kan man kompilerer projektet med dokumentation, ved at bruge kommandoen \lstinline$make withdocs$
-
-    Tests findes i  mappen \path{/src}, i filen \lstinline$tests.fsx$,
-    og kan kompileres med \lstinline$fsharpc$ og køres med \lstinline$mono$.
-
 \newpage
+    
+\section{Introduktion} \label{sec:introduction}
+   Formålet med opgaven har været at lære at bruge objekter og klasser.
+
+  \paragraph*{Sådan kompilerer du projektet\\}
+    I \path{/src} mappen ligger der en Makefile og hvis man kører den, 
+    kompileres \path{game.exe},
+    begge filer kan findes i mappen \path{/src}.
+    Følgende kommandoer er tilgængelige for vores makefile:
+    \begin{itemize}
+      \item \lstinline$make$ Kompilere både projektet og tests
+      \item \lstinline$make withdocs$ Kompilere projektet, tests og dokumentation
+    \end{itemize}
+
+    Tests findes i  mappen \path{/src}, i filen \path{tests.fsx}.
 
 \section{Problemformulering} \label{sec:problem}
   I dette afsnit vil vi introducere det problem vi ønsker at løse med programmet,
   og beskrive hvordan vi har forstået den udleverede kravspecifikation.
 
   I dette projekt vil vi gerne udvikle et program der kan spilles af 1-5 spillere i kommandoprompten,
-  med mulighed for AI. Programmet er implementeret i F\# og følger reglerne for SimpleJack der er beskrevet i afsnit \ref{ssec:demands} - \nameref{ssec:demands}.
+  med mulighed for AI. Programmet er implementeret i F\# og følger reglerne for SimpleJack der er beskrevet i afsnit \namedref{ssec:demands}.
 
   \subsection{Kravspecifikation} \label{ssec:demands}
-    Undervisningforløbet hvorigennem dette projekt udfodler sig, er der fokus på klasser og objekter,
-    via ement ”\textit{Object Orienteret Programmering}” (OOP).
+    Undervisningforløbet hvorigennem dette projekt udfolder sig, er der fokus på klasser og objekter,
+    gennem emnet ”\textit{Object Orienteret Programmering}” (OOP).
     Et af kravene, er defor at progammet skal være designet efter det objekt-orienteret paradigme.
     Hertil kommer, at projektet skal planlægges gennem bl.a. et UML diagram.
 
@@ -233,37 +242,37 @@
       \item Vælg altid "Hit", medmindre summen af egne kort kan være 17 eller over, ellers vælg "Stand"
       \item Vælg tilfældigt mellem "Hit"og "Stand". Hvis "Hit"vælges trækkes et kort og der vælges igen tilfældigt mellem "Hit"og "Stand"osv.
     \end{enumerate}
-  \newpage
 
   \section{Problemanalyse og design} \label{sec:design}
-    I dette afsnit vil vi beskrive hvilken struktur vi har tænkt os at opbygge vores programefter.
+    I dette afsnit vil vi beskrive hvilken struktur vi har tænkt os at opbygge vores program efter.
     Vi vil introducere et UML diagram og beskrive de tanker der ligger bag vores designvalg.
 
     \subsection*{Struktur}
-      Vores design bygger op omkring fire kerne klasser,
+      Vores design er bygget op omkring fire kerne klasser,
       \texttt{Game}, \texttt{\texttt{Player}}, \texttt{\texttt{Hand}} og \texttt{\texttt{Card}} og en enumeration kaldet \texttt{\texttt{Suits}} - der huser de fire forskellige kulører.
       Programmet er designet nedefra og op, så de mindre enheder som \texttt{\texttt{Card}} og \texttt{\texttt{Hand}} blev designet før \texttt{\texttt{Player}}, som blev gennemtænkt før \texttt{Game}-klassen. 
-      Denne fremgangsmåde blev valgt, da det ville give et større overblik. Med overblik menes der over projektet, efterhånden som det bliver mere komplekst. Hermed havde vi også ”byggestenene” for hvad de større enheder skulle kunne indeholde (fx. \texttt{Game}).
+      Denne fremgangsmåde blev valgt, da det ville give et større overblik. Hermed havde vi også ”byggestenene” for hvad de større enheder skulle kunne indeholde (fx. \texttt{Game}).
 
       \subsubsection*{Game}
-      \texttt{Game}-klassen står for håndtering af spillet, ved at gemme: Spillerne i en \texttt{Player} tabel; dealeren som en \texttt{Player}; kortbunken for spillet, som en \texttt{Hand}.
+      \texttt{Game}-klassen står for håndtering af spillet, ved at gemme: Spillerne i et \texttt{Player} array; dealeren som en \texttt{Player}; kortbunken for spillet, som en \texttt{Hand}.
       Herudover indeholder \texttt{Game} antallet af spillere, for hurtigt og let at kunne tilgå denne oplysning.
-      \texttt{Game} indeholder en funktion, kaldet \textit{draw}, der trækker et kort fra kortbunken fra \textit{Game}-instansens kortbunke og vidergiver dette kort til en given spiller (givet).
+      \texttt{Game} indeholder en funktion, kaldet \textit{draw}, der trækker et kort fra kortbunken fra \textit{Game}-instansens kortbunke og vidergiver dette kort til en given spiller. \\
 
-      \texttt{Game} objectets funktion er at holde styr på alt det nødvendige for spil logikken,
-      så al datahåndtering til et spil foregår i dette objekt.
+      \texttt{Game} objektets funktion er at holde styr på alt det nødvendige for spil logikken,
+      dvs at al datahåndtering til et spil foregår i dette objekt.
 
       \subsubsection*{Hand}
-      \texttt{Hand} gemmer en array af \texttt{Card} objekter, og skal være et objekt der håndtere den funktion vores hånd har i et normalt kortspil.
-      En hånd har en funktion der trækker et kort, altid det øverste(stak) denne har vi valgt at kalde \lstinline$drop$,
-      den har en funktion der ligger et kort på stakken denne hedder \lstinline$draw$,
-      så kan hele håndens kort erstattets, hånden skal kunne blandes og hånden skal kunne skrives ud som string.
+      \texttt{Hand} gemmer et array af \texttt{Card} objekter. Dette objekt håndtere den funktion vores hånd har i et virkeligt kortspil.
+      En hånd har en funktion der trækker et kort, altid det øverste(\texttt{som en stak}), denne har vi valgt at kalde \lstinline$drop$.
+      Den har også en funktion der ligger et kort på stakken, denne hedder \lstinline$draw$.
+      Hele håndens kort kan erstattets med \lstinline$replaceWith$. Hånden skal kunne blandes og til sidst skrives ud som streng.
 
       \subsubsection*{Player}
-      En spiller/person skal have et navn(\lstinline$name$) i følge kravspecifikationen,
-      vi bruger også \texttt{Player}-klassen til AI, så derfor har vi også en bool(\lstinline$AI$),
-      \lstinline$index$ er array indeks'et for \texttt{Player}en i \texttt{Player}s arrayen, eller hvornår spilleren har tur,
-      og hand er et \texttt{Hand} objekt der indeholder spillerens hånd.
+      En spiller/person skal have et navn(\lstinline$name$) i følge kravspecifikationen.
+      Fordi vi også bruger \texttt{Player}-klassen til AI har vi en bool(\lstinline$AI$).
+      \lstinline$index$ er array indexet for \texttt{Player}en i \texttt{Player}s arrayen - kan også ses som hvornår spilleren har tur.
+      Hand er et \texttt{Hand} objekt der indeholder spillerens hånd.
+
 
       Ved siden af de properties har vi en \lstinline$score$ funktion der beregner spillens score,
       ved at gå gennem de kort der er i hånden.
@@ -271,10 +280,11 @@
       der laver en tekstrepræsentaiton af spillerens hånd og score.
 
       \subsubsection*{Card}
-      Et spillekort har en kulør, se Sektionen \ref{sssec:suits}, og en værdi/indeks der repræsentere kortet,
-      hvor 11 - 13 er (bonde, dame, konge) og numrene 2 - 10 har deres respektive værdi og et es har værdien 1.
+      Et spillekort har en kulør, se Sektionen \ref{sssec:suits}, og en værdi/index der repræsentere kortet.
+      Hvor 11 - 13 er (bonde, dame, konge) og numrene 2 - 10 har deres respektive værdi og et es har værdien 1.
+
       Denne værdi må ikke sammenblandes med den værdi kortet har i Blackjack,
-      da alle billedkort har samme værdi - og derfor vil den værdi ikke være unik.
+      da alle billedkort har samme værdi.Derfor vil den værdi ikke være unik.
       Denne \lstinline$value$ sammenlædet med \lstinline$suit$ skaber en unik værdi,
       der kan bruges til at reprænsetere kortet når spillepladen vises.
 
@@ -457,21 +467,26 @@
       \end{itemize}
       De kan vælges ved at bruge taster ”1” eller ”2”.
       
-      \item{\texttt{setup}}~\\
-      Setup funktionen håndtere start af et nyt spil.
+      Udover det førnævnte, så printer menu-funktionen en header som
+      vi har lavet i ascii art.
+
+    \item{\texttt{setup}}~\\
+      Setup funktionen håndtere start af et nyt spil. Her kan man
+      vælge hvor mange spillere der skal være med. Hvad de skal hedde,
+      og om de skal være en computer eller en spiller.
       
       \item{\texttt{main}}~\\
+        
     \end{description}
-      
       
   \section{Afprøvning} \label{sec:unitTest}
     Til at sørge for at vores funktioner virker korrekt har vi
     anvendt unit-testing på klasserne Card, Player og Hand.
     Disse tests findes i filen \path{src/tests.fsx}, som skal
-    compiles med symbolet TEST, hvilket kan gøres med
+    compiles med symbolet TEST. Dette kan gøres med
     kommandolinjeflaget -d:TEST og derefter kan køres i en
-    terminal, hvor der angives true eller false for hver test
-    der udføres, hvor true angiver at testen har givet det
+    terminal. Der angives true eller false for hver test
+    der udføres. Her angiver true at testen har givet det
     forventede resultat og false angiver en fejl i koden.
 
 	\section{Diskussion og konlusion} \label{sec:conclusion}
@@ -489,7 +504,6 @@
     Spillet kan også spilles af spillere gennem kommandopromten, som ønsket.
 
     Programmet er unittestet(Se \namedref{sec:unitTest}), dokumenteret efter XML-standarden og kan kompileres med fsharpc og køres med mono.
-  \newpage
   
   \section{Bilag}
       Dette afsnit indeholder en brugervejledning for brug og spil af SimpleJack og spillets programkode.
