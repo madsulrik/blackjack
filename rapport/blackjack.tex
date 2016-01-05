@@ -386,6 +386,11 @@
       Dette afsnit indeholder en brugervejledning for brug og spil af SimpleJack og spillets programkode.
 
       \subsection{Brugervejledning} \label{ssec:manual}
+        Dette afsnit vil være en step-by-step guide til brug af det udviklede program,
+        det skal ikke ses som en vejledning til at spille SimpleJack. Her findes altså ikke nogle regler
+        i dette afsnit, men de kan ses i Afsnit \ref{ssec:demands} - \nameref{ssec:demands}.
+
+        Spillet startes ved at køre filen \path{src/game.exe}.
 
       \subsection{Kildekode} \label{ssec:sourceCode}
         Dette afsnit indeholder alt den kode der er blevet udviklet til projektet,
@@ -394,4 +399,57 @@
         \lstinputlisting[caption={Spilklasser},label={lst:blackjack}]{code/blackjack.fsx}
         \lstinputlisting[caption={Spillogikken},label={lst:game}]{code/game.fsx}
         \lstinputlisting[caption={Tests},label={lst:tests}]{../src/tests.fsx}
+
+      \subsection{Billeder}
+        Dette afsnit indeholder billeder brugt i de forskellige afsnit,
+        der enten er for store til afsnittet eller skal bruges flere steder.
+
+        \begin{figure}[H]
+          \includegraphics{figures/MainMenu.PNG}
+
+          \caption{Spillets hovedmenu}
+          \label{fig:mainMenu}
+        \end{figure}
+
+        \begin{figure}[H]
+          \includegraphics{figures/SelectPlayers.PNG}
+
+          \caption{Vælg antal spillere}
+          \label{fig:selectPlayers}
+        \end{figure}
+
+        \begin{figure}[H]
+          \includegraphics{figures/PlayerName.PNG}
+
+          \caption{Vælg spillers navn}
+          \label{fig:selectPlayerName}
+        \end{figure}
+
+        \begin{figure}[H]
+          \includegraphics{figures/PlayerIsHuman.PNG}
+
+          \caption{Vælg om spiller er AI eller menneske}
+          \label{fig:selectPlayerIsHuman}
+        \end{figure}
+
+        \begin{figure}[H]
+          \includegraphics{figures/ScoreBoardDealed.PNG}
+
+          \caption{Spillet starter}
+          \label{fig:scoreboardDealed}
+        \end{figure}
+
+        \begin{figure}[H]
+          \includegraphics{figures/Player3Playing.PNG}
+
+          \caption{Spiller 3's tur}
+          \label{fig:player3Turn}
+        \end{figure}
+
+        \begin{figure}[H]
+          \includegraphics{figures/WinnerIs.PNG}
+
+          \caption{Vinderen er fundet}
+          \label{fig:winnerIsFound}
+        \end{figure}
 \end{document}
