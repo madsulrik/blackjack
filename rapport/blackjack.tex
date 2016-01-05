@@ -269,7 +269,7 @@
 
       \subsubsection*{Player}
       En spiller/person skal have et navn(\lstinline$name$) i følge kravspecifikationen.
-      Fordi vi også bruger \texttt{Player}-klassen til AI har vi en bool(\lstinline$AI$).
+      Fordi vi bruger \texttt{Player}-klassen til AI har vi en \textit{boolean} (\lstinline$AI$).
       \lstinline$index$ er array indexet for \texttt{Player}en i \texttt{Player}s arrayen - kan også ses som hvornår spilleren har tur.
       Hand er et \texttt{Hand} objekt der indeholder spillerens hånd.
 
@@ -289,7 +289,6 @@
       der kan bruges til at reprænsetere kortet når spillepladen vises.
 
       Udover suit og value, har kortet en funktion \lstinline$toString()$ der returnere en tekst repræsentation af kortet.
-      \lstinputlisting[caption={\texttt{Card}'s toString metode},label={lst:cardToString},firstline=18,lastline=32]{../src/blackjack.fsx}
 
       \subsubsection*{Suits} \label{sssec:suits}
       En enumeration er, specielt i OOP, en god måde at repræsentere forskellige værdier for det sammen field, 
@@ -320,7 +319,7 @@
     Filen \path{tests.fsx} indeholder unit-tests af programmet.
 
     \subsection{Hjælpefunktioner} \label{ssec:helpers}
-      De følgende hjælpefunktioner kan findes i filen \path{/src/blackjack.fsx}, og er relateret til consol-håndtering.
+      De følgende hjælpefunktioner kan findes i filen \path{/src/blackjack.fsx}, og er relateret til konsol-håndtering.
       \begin{description}
       
         \item{\texttt{readln}}~\\
@@ -400,8 +399,8 @@
           Hearts, \textit{Spades}, \textit{Diamonds}, \textit{Clubs}. Værdien er angivet som 
           et heltal; det gyldige interval er fra 1-13.
           \texttt{Card}'s eneste metode er \textit{toString}, som tager kulør og værdi og sætter 
-          dem sammen i streng, som fx ”$\varheartsuit$5”. Hvis et Es (værdi 1) eller billedekort (værdi 
-          11-13) vælges, udprintes deres værdi som henholdsvis ”A”, ”J”, ”Q” og ”K”.
+          dem sammen i tegnfølge, som fx ”$\varheartsuit$5”. Hvis et Es (værdi 1) eller billedekort 
+          (værdi 11-13) vælges, udprintes deres værdi som henholdsvis ”A”, ”J”, ”Q” og ”K”.
           Kulørerne bliver vist som ”$\varheartsuit$”, ”$\spadesuit$”, ”$\vardiamondsuit$” og ”$\clubsuit$”. Kulør og værdi får den rigtige tegnfølge gennem 2 patternmatches, en for hver.\\
           Når en ny instans af \texttt{Card} oprettes, gives 2 parametre pakket ind i en tuple: \textit{value} som integer, som er kortets værdi; \textit{suit} som er enumeration af \texttt{Suits}.
           Der er ingen yderligere constructor'e defineret for klassen.
@@ -409,7 +408,7 @@
         \item{\texttt{\texttt{Hand}}}~\\
         \texttt{Hand} repræsenterer en fysisk hånd med (eventuelle) kort. Den eneste egenskab for 
         klassen er \textit{cards}, som er af typen \texttt{Card} \textit{array}. \textit{cards} 
-        repræsenterer kortenen som hånden ”holder” og er muterbar, så der kan tilføjes eller fjernes 
+        repræsenterer kortene som hånden ”holder” og er muterbar, så der kan tilføjes eller fjernes 
         kort fra hånden.\\
         Klassen har 4 metoder:
         \begin{description}
@@ -430,52 +429,117 @@
             som første element i \textit{cards}, ved brug af \lstinline$Array.append$, som det kan ses i \namedref{lst:handDraw}.
             
             \lstinputlisting[
-              caption={Hand.draw: Metode til at tilføje et kort}, label={lst:handDraw}, firstline=42, 
+              caption={Hand.draw: Metode til at tilfoeje et kort}, label={lst:handDraw}, firstline=42, 
               lastline=42
             ]{../src/blackjack.fsx}
             
           \item{{\texttt{toString}}}~\\
             \textit{toString} er en metode, som laver en visuel repræsentation (returnerer tegnfølgen),
             af kortene på hånden. Dette gøres gennem et for-loop, hvor alle kortene køres igennem.
-            For alle kort, borset fra første, preprendes et whitespace, for at adskille kortene.
+            For hvert kort, borset fra det første, preprendes et whitespace, for at adskille kortene.
             Eftersom kortene er af klassen \texttt{Card}, anvendes \texttt{Card}.toString metoden på 
             hvert kort.
             
           \item{{\texttt{shuffle}}}~\\
           \textit{shuffle} blander kortene på hånden. Dette gøres ved oprette en tom tabel, som har 
-          samme længde som antallet af kort på hånden. Herefter køres hvert kort på hånden igennem, og for hvert kort findes et tilfældigt nummer fra 0 til det maksimale indeks
-            
+          samme længde som antallet af kort på hånden. Herefter køres hvert kort på hånden igennem. For 
+          hvert kort findes et tilfældigt nummer/indeks fra 0 til det maksimale indeks. Hvis det fundne 
+          indeks matcher en fyldt plads i den nye tabel findes et nyt tilfældigt nummer. Dette gentages  
+          indtil en tom plads er fundet, hvor det pågældende kort indsættes på denne plads.
+          Når dette er gjort for alle kort, overskrives den gamle hånd med den nye.
+          
+          \item{{\texttt{replaceWith}}}~\\
+          \textit{replaceWith} tager parameteren \textit{cards} som er af typen \texttt{Card} 
+          \textit{array}. \textit{cards} overskriver de kort som allerede er på hånden.
+          
         \end{description}
         
         Den primære constructor for \texttt{Hand} er hvor en tabel af \texttt{Card} angives. Disse kort 
         er kortene som hånden vil bestå af. \texttt{Hand} har en yderligere constructor, hvor der ingen 
         parametre er specificeret. Dette opretter en tom hånd. 
                 
-        \item{\texttt{\texttt{Player}}}~\\
+        \item{\texttt{Player}}~\\
+        \texttt{Player}-klassen repræsenterer en spiller. Dette kan både være computerstyret eller 
+        manuelt styret spiller. Om en spiller er AI eller menneske, er styret med en \textit{boolean} 
+        kaldet \textit{AI}.\\
+        Herudover har en spiller et navn repræsenteret ved en tegnfølge; en hånd repræsenteret ved 
+        \texttt{Hand}; og et indeks som repræsenterer spillerens rækkefølge i spillet (0 er første).
+        
+        \begin{description}
+          \item{{\texttt{score}}}~\\
+          \textit{score} er en metode som repræsenterer en spillers point/score. Hver gang score'en 
+          efterspørges udregnes den på ny. Grunden til dette er at der skal tages høje for Es'er som 
+          både kan have værdien 1 og 11. \\
+          Score'en udregnes ved at køre alle kortene på hånden igennem. Billedekort behandles som med en
+          værdi på 10 og Es som med en værdi på 1; dog tælles antallet af Es'er. \\
+          Grunden til at antallet af Es'er findes, er til at finde du af om de bør blive behandlet som 1 
+          eller 11. \\
+          Dette gøres ved at finde differensen mellem 21 og den fundne score. Hvis der er minimum et Es 
+          på hånden, og differensen er 10 eller større, lægges 10 til scoren og antallet af Es'er tælles 
+          ned. Dette gentages indtil en af betingelserne (eller begge), ikke er opfyldt mere.
+          
+          \item{\texttt{isBusted}}~\\
+          \textit{isBusted} tjekker om en spiller har ”bust”, som betyder at spillerens score er over 21.
+          Dette tjekkes ved hjælp af \textit{score}-metoden.
+          
+          
+          \item{\texttt{scoreboard}}~\\
+          \textit{scoreboard} er en metode som laver en visuel repræsentering af en spiller, ved at 
+          printe spillerens navn, score og hvilke kort der er på hånden. Det er spillerens indeks som 
+          bestemmer hvor spillerens ”boks” placeres. Der kan være 3 spiller ”bokse” på en række. Se  
+          \namedref{fig:scoreboardDealed} for eksempel.
+        \end{description}
+        
+        Den primære constructor tager 3 parametre: \textit{name} som er tegnfølgen der beskriver navnet 
+        på spilleren; \textit{index} som er \textit{integer} og beskriver rækkefølgen i spil-flowet; 
+        \textit{AI} som er en \textit{boolean} der beskriver om det er menneske eller computer der 
+        styrer spilleren. En yderligere constructor er defineret hvor kun \textit{name} og 
+        \textit{index} skal angives. Her bliver AI automatisk sat til \textit{false}.
+        
         \item{\texttt{Game}}~\\
+        \textit{Game}-klassen repræsenterer et SimpleJack-spil, som indeholder 1-5 spillere via en 
+        \texttt{Player} \textit{array}, en dealer som \texttt{Player} og en kortbunke som \texttt{Hand}.
+        \texttt{Game} har én metode \textit{draw}, som gør brug af \texttt{Hand}'s \textit{drop} og 
+        \textit{draw} metoder til at overføre et kort fra spillets \textit{stack} (kortbunke) til en 
+        spillers hånd, som gives gennem funktionskaldet for \textit{draw}.\\
+        Der er kun en enkelt constructor for klassen, hvor 2 parametre gives: \textit{dealer} af typen 
+        \texttt{Player} og \textit{players} som er af typen \texttt{Player} \textit{array}.\\
+        Når en instans oprettes, laves en hånd med 52 kort, som shuffles, som repræsenterer kortbunken.
+        
       \end{description}
     
     \subsection{Loops} \label{ssec:loops}
     \begin{description}
       \item{\texttt{menu}}~\\
-      Menufunktionen holder styr på hovedmenuen, den er vist i \lstinline$menuHeader$.
-      Når menuen vises, fjernes alt det der tidligere har været i konsollen.
+      Når menuen vises, cleares konsollen og printer menu-funktionen en header som
+      vi har lavet i ascii art.
       Denne menu giver spilleren to muligheder:
       \begin{itemize}
-        \item 1 - New game, setup() og menu() kaldes
-        \item 2 - Exit game
+        \item 1 - New game, som starter et nyt spil
+        \item 2 - Exit game, som afslutter programmet
       \end{itemize}
       De kan vælges ved at bruge taster ”1” eller ”2”.
-      
-      Udover det førnævnte, så printer menu-funktionen en header som
-      vi har lavet i ascii art.
 
     \item{\texttt{setup}}~\\
-      Setup funktionen håndtere start af et nyt spil. Her kan man
+      \textit{setup} funktionen håndtere start af et nyt spil. Her kan man
       vælge hvor mange spillere der skal være med. Hvad de skal hedde,
-      og om de skal være en computer eller en spiller.
+      og om de skal være en computer eller en spiller. \\
+      Her er validate hjælpefunktionerne anvendt til at validere brugerinput til navn, antal og om det 
+      er computer eller manuelt styret.
       
       \item{\texttt{main}}~\\
+      \textit{main} er en rekursiv funktionen udfører selve SimpleJack-spillet. 
+      Allerførst køres alle spillere igennem, inklusiv dealer, hvor 2 kort trækkes til hver.
+      Herefter køres spillerne igennem en for, hvor deres tur tages. Her tages brugerinput, hvor et 
+      gyldigt input er ”hit” eller ”stand”. ”hit” kan gøres flere gange, hvilket styres af et 
+      while-loop. Der hoppes ud af while-loopet hvis brugerinput'et er ”stand”.
+      Hvis en spiller er en AI (computer-styret) anvendes AI funktionen som tidligere beskrevet.\\
+      
+      Herefter tjekkes der for vindere og eventuelle vinderne listes.
+      Brugerinput afgører om spillet skal genstartes eller afsluttes.
+      Hvis brugeren vælger genstart fjernes alle kort fra spillerne og de overføres til et nyt 
+      \texttt{Game}-instans, som har et nyt dæk. Hvis der vælges at det skal afsluttes tages man til 
+      \textit{menu}'en.
         
     \end{description}
       
@@ -510,8 +574,8 @@
 
       \subsection{Brugervejledning} \label{ssec:manual}
         Dette afsnit vil være en step-by-step guide til brug af det udviklede program,
-        det skal ikke ses som en vejledning til at spille SimpleJack. Her findes altså ikke nogle regler
-        i dette afsnit, men de kan ses i Afsnit \namedref{ssec:demands}.
+        det skal ikke ses som en vejledning til at spille SimpleJack. Her findes ingen regler
+        i dette afsnit; se derimod \namedref{ssec:demands} for regler.
 
         Spillet startes ved at køre filen \path{src/game.exe}. \\
         
@@ -527,7 +591,7 @@
         Dette tal inkludere AI spillere, men er eksklusivt dealeren.
 
         Når antal spillere er valgt, vil der for hver spiller være krævet to inputs,
-        først "navn" og derefter om spilleren er AI.
+        først ”navn” og derefter om spilleren er AI.
         Disse to skræme kan ses i \namedref{fig:selectPlayerName} og \namedref{fig:selectPlayerIsHuman}.
 
         Nu er spillet klar til at gå i gang, og den første spiller starter.
@@ -537,8 +601,8 @@
         Den nuværende spiller kan nu vælge mellem to kommandoer:
         - Hvis summen af en spillers kort er 21 eller større, gives turen videre.
         \begin{enumerate}
-          \item \"hit\" - Trækker et nyt kort
-          \item \"stand\" - Giver turen videre (Se \namedref{fig:player3Turn})
+          \item ”hit” - Trækker et nyt kort
+          \item ”stand” - Giver turen videre (Se \namedref{fig:player3Turn})
         \end{enumerate}
 
         AI spillere har et delay mellem hver af deres kommandoer, så det føles virkeligt.
