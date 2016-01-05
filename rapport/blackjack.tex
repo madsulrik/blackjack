@@ -64,10 +64,10 @@
 \definecolor{redstrings}{rgb}{0.5,0,0}
 \definecolor{lightgray}{RGB}{240, 240, 240}
 
-\newcommand{\namedref}[1]{\autoref{#1} - \nameref{#1}}
+\newcommand{\namedref}[1]{\autoref{#1}} % - \nameref{#1}}
 
 \lstdefinelanguage{FSharp}
-				{morekeywords={\#load, \#r, let, new, match, with, rec, open, module, namespace, type, of, member, and, for, in, do, begin, end, fun, function, try, mutable, if, then, else, List, Set, Sudoku, Seq, false, true, Assert, printfn, print, sprintf, when, ->, >, ::, printf, yield, this},
+				{morekeywords={\#load, \#r, let, new, match, with, rec, open, module, namespace, type, of, member, and, for, in, do, begin, end, fun, function, try, mutable, if, then, else, List, Set, Sudoku, Seq, false, true, Assert, printfn, print, sprintf, when, ->, >, ::, Array, printf, yield, this},
 	keywordstyle=\color{bluekeywords},
 	sensitive=false,
 	morecomment=[l][\color{greencomments}]{///},
@@ -131,12 +131,10 @@
   captionpos=b,
   language=FSharp,
   texcl=true,
-  inputencoding=utf8,
+  inputencoding=ansinew,
   extendedchars=true,
   mathescape=true,
   %escapeinside={(*}{*)},
-  extendedchars=\true,
-  inputencoding=ansinew
   }
 
 \setlength\parindent{0pt}
@@ -264,7 +262,7 @@
       \subsubsection*{Player}
       En spiller/person skal have et navn(\lstinline$name$) i følge kravspecifikationen,
       vi bruger også \texttt{Player}-klassen til AI, så derfor har vi også en bool(\lstinline$AI$),
-      \lstinline$index$ er array indexet for \texttt{Player}en i \texttt{Player}s arrayen, eller hvornår spilleren har tur,
+      \lstinline$index$ er array indeks'et for \texttt{Player}en i \texttt{Player}s arrayen, eller hvornår spilleren har tur,
       og hand er et \texttt{Hand} objekt der indeholder spillerens hånd.
 
       Ved siden af de properties har vi en \lstinline$score$ funktion der beregner spillens score,
@@ -273,7 +271,7 @@
       der laver en tekstrepræsentaiton af spillerens hånd og score.
 
       \subsubsection*{Card}
-      Et spillekort har en kulør, se Sektionen \ref{sssec:suits}, og en værdi/index der repræsentere kortet,
+      Et spillekort har en kulør, se Sektionen \ref{sssec:suits}, og en værdi/indeks der repræsentere kortet,
       hvor 11 - 13 er (bonde, dame, konge) og numrene 2 - 10 har deres respektive værdi og et es har værdien 1.
       Denne værdi må ikke sammenblandes med den værdi kortet har i Blackjack,
       da alle billedkort har samme værdi - og derfor vil den værdi ikke være unik.
@@ -359,7 +357,7 @@
           og så tilføjes der en linje med X'er i konsollen under spillerens scoreboard,
           for at vise at det er den spiller der har tur.
 
-        \item{AI}~\\
+        \item{\texttt{AI}}~\\
           Denne funktion agere AI logik for de spillere der er flagged det.
           Systemet er delt op i nogle forskellige trin.
 
@@ -392,9 +390,57 @@
           Hearts, \textit{Spades}, \textit{Diamonds}, \textit{Clubs}. Værdien er angivet som 
           et heltal; det gyldige interval er fra 1-13.
           \texttt{Card}'s eneste metode er \textit{toString}, som tager kulør og værdi og sætter 
-          dem sammen i streng, som fx ”$\varheartsuit$”
+          dem sammen i streng, som fx ”$\varheartsuit$5”. Hvis et Es (værdi 1) eller billedekort (værdi 
+          11-13) vælges, udprintes deres værdi som henholdsvis ”A”, ”J”, ”Q” og ”K”.
+          Kulørerne bliver vist som ”$\varheartsuit$”, ”$\spadesuit$”, ”$\vardiamondsuit$” og ”$\clubsuit$”. Kulør og værdi får den rigtige tegnfølge gennem 2 patternmatches, en for hver.\\
+          Når en ny instans af \texttt{Card} oprettes, gives 2 parametre pakket ind i en tuple: \textit{value} som integer, som er kortets værdi; \textit{suit} som er enumeration af \texttt{Suits}.
+          Der er ingen yderligere constructor'e defineret for klassen.
           
         \item{\texttt{\texttt{Hand}}}~\\
+        \texttt{Hand} repræsenterer en fysisk hånd med (eventuelle) kort. Den eneste egenskab for 
+        klassen er \textit{cards}, som er af typen \texttt{Card} \textit{array}. \textit{cards} 
+        repræsenterer kortenen som hånden ”holder” og er muterbar, så der kan tilføjes eller fjernes 
+        kort fra hånden.\\
+        Klassen har 4 metoder:
+        \begin{description}
+          \item{{\texttt{drop}}}~\\
+            \textit{drop} er metoden, som fjerner et kort på hånden. Dette gøres ved at tage det sidste 
+            kort fra \textit{cards} og returnerer det. Inden kortet returneres, opdateres kortene på 
+            hånden, ved at overskrive sig selv, uden det sidste element. Dette kan ses på 
+            \namedref{lst:handDrop}, linje 4, hvor elementer fra indeks 0 til sidste indeks minus 1 vælges.
+            
+            \lstinputlisting[
+              caption={Hand.drop: Metode til at fjerne et kort }, label={lst:handDrop}, firstline=41, 
+              lastline=45
+            ]{../src/blackjack.fsx}
+            
+          \item{{\texttt{draw}}}~\\
+            \textit{draw} er metoden som trækker et kort og har parameteren \textit{card} 
+            af typen \texttt{Card}. \textit{card} er det kort der skal tilføjes til hånden og indsættes 
+            som første element i \textit{cards}, ved brug af \lstinline$Array.append$, som det kan ses i \namedref{lst:handDraw}.
+            
+            \lstinputlisting[
+              caption={Hand.draw: Metode til at tilføje et kort}, label={lst:handDraw}, firstline=42, 
+              lastline=42
+            ]{../src/blackjack.fsx}
+            
+          \item{{\texttt{toString}}}~\\
+            \textit{toString} er en metode, som laver en visuel repræsentation (returnerer tegnfølgen),
+            af kortene på hånden. Dette gøres gennem et for-loop, hvor alle kortene køres igennem.
+            For alle kort, borset fra første, preprendes et whitespace, for at adskille kortene.
+            Eftersom kortene er af klassen \texttt{Card}, anvendes \texttt{Card}.toString metoden på 
+            hvert kort.
+            
+          \item{{\texttt{shuffle}}}~\\
+          \textit{shuffle} blander kortene på hånden. Dette gøres ved oprette en tom tabel, som har 
+          samme længde som antallet af kort på hånden. Herefter køres hvert kort på hånden igennem, og for hvert kort findes et tilfældigt nummer fra 0 til det maksimale indeks
+            
+        \end{description}
+        
+        Den primære constructor for \texttt{Hand} er hvor en tabel af \texttt{Card} angives. Disse kort 
+        er kortene som hånden vil bestå af. \texttt{Hand} har en yderligere constructor, hvor der ingen 
+        parametre er specificeret. Dette opretter en tom hånd. 
+                
         \item{\texttt{\texttt{Player}}}~\\
         \item{\texttt{Game}}~\\
       \end{description}
@@ -409,7 +455,7 @@
         \item 1 - New game, setup() og menu() kaldes
         \item 2 - Exit game
       \end{itemize}
-      De kan vælges ved at bruge taster "1" eller "2".
+      De kan vælges ved at bruge taster ”1” eller ”2”.
       
       \item{\texttt{setup}}~\\
       Setup funktionen håndtere start af et nyt spil.
