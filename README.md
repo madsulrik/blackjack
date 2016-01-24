@@ -1,2 +1,2 @@
 # blackjack
-Best Diku blackjack simulator
+F# blackjack simulator
